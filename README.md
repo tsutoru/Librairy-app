@@ -30,15 +30,15 @@ Représente un livre dans la librairie.
 
 ### Attributs
 
-| Attribut        | Type      | Description                        |
-|-----------------|-----------|------------------------------------|
-| id              | Long      | Identifiant unique                 |
-| title           | String    | Titre du livre                     |
-| description     | String    | Description du livre               |
-| price           | Double    | Prix unitaire                      |
-| publicationDate | LocalDate | Date de publication                |
-| isbn            | String    | Code ISBN unique                   |
-| categoryId      | Long      | Référence vers la catégorie        |
+| Attribut    | Type      | Description                        |
+|-------------|-----------|------------------------------------|
+| id          | Int       | Identifiant unique                 |
+| title       | String    | Titre du livre                     |
+| description | String    | Description du livre               |
+| price       | Double    | Prix unitaire                      |
+| publishDate | LocalDate | Date de publication                |
+| isbn        | String    | Code ISBN unique                   |
+| categoryId  | Int       | Référence vers la catégorie        |
 
 >**Remarque :** Un livre peut avoir **plusieurs auteurs** (co-auteurs). La relation `Book ↔ Author` est donc **Many-to-Many** (table de jointure `book_author`).
 
@@ -52,7 +52,7 @@ Représente l'auteur d'un ou plusieurs livres.
 
 | Attribut    | Type   | Description              |
 |-------------|--------|--------------------------|
-| id          | Long   | Identifiant unique       |
+| id          | Int    | Identifiant unique       |
 | firstName   | String | Prénom                   |
 | lastName    | String | Nom de famille           |
 | biography   | String | Biographie               |
@@ -68,7 +68,7 @@ Permet de regrouper les livres selon leur domaine.
 
 | Attribut    | Type   | Description                   |
 |-------------|--------|-------------------------------|
-| id          | Long   | Identifiant unique            |
+| id          | Int    | Identifiant unique            |
 | name        | String | Nom de la catégorie           |
 | description | String | Description de la catégorie   |
 
@@ -90,11 +90,11 @@ Représente une copie physique d'un livre disponible en stock.
 
 ### Attributs
 
-| Attribut | Type       | Description                        |
-|----------|------------|------------------------------------|
-| id       | Long       | Identifiant unique                 |
-| bookId   | Long       | Référence vers le livre            |
-| status   | Enum       | Statut de l'exemplaire             |
+| Attribut | Type | Description                        |
+|----------|------|------------------------------------|
+| id       | int  | Identifiant unique                 |
+| bookId   | int  | Référence vers le livre            |
+| status   | Enum | Statut de l'exemplaire             |
 
 ### Statuts possibles (Enum)
 
@@ -116,7 +116,7 @@ Permet d'enregistrer les nouveaux exemplaires entrant dans le stock.
 
 | Attribut    | Type      | Description                            |
 |-------------|-----------|----------------------------------------|
-| id          | Long      | Identifiant unique                     |
+| id          | int       | Identifiant unique                     |
 | arrivalDate | LocalDate | Date de l'arrivage                     |
 | quantity    | Integer   | Nombre d'exemplaires reçus             |
 | supplier    | String    | Nom du fournisseur                     |
@@ -133,7 +133,7 @@ Représente une vente effectuée dans la librairie.
 
 | Attribut    | Type      | Description                                      |
 |-------------|-----------|--------------------------------------------------|
-| id          | Long      | Identifiant unique                               |
+| id          | int       | Identifiant unique                               |
 | saleDate    | LocalDate | Date de la vente                                 |
 | quantity    | Integer   | Nombre d'exemplaires vendus                      |
 | totalAmount | Double    | Montant total de la vente                        |
@@ -151,7 +151,7 @@ Représente une personne qui réserve ou achète un livre.
 
 | Attribut  | Type   | Description              |
 |-----------|--------|--------------------------|
-| id        | Long   | Identifiant unique       |
+| id        | int    | Identifiant unique       |
 | firstName | String | Prénom                   |
 | lastName  | String | Nom de famille           |
 | email     | String | Adresse e-mail           |
@@ -168,7 +168,7 @@ Permet à un client de réserver un exemplaire de livre.
 
 | Attribut        | Type      | Description                              |
 |-----------------|-----------|------------------------------------------|
-| id              | Long      | Identifiant unique                       |
+| id              | int       | Identifiant unique                       |
 | reservationDate | LocalDate | Date de la réservation                   |
 | expirationDate  | LocalDate | Date d'expiration de la réservation      |
 | status          | Enum      | Statut de la réservation                 |
