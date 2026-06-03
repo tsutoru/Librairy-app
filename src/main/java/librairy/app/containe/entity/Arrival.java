@@ -1,17 +1,26 @@
 package librairy.app.containe.entity;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "arrival")
 @Getter
 @Setter
 public class Arrival {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private LocalDate arrivalDate;
     private int quantity;
     private String supplier;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id")
     private Book book;
 
     public Arrival() {}
