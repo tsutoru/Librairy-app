@@ -1,4 +1,4 @@
-package librairy.app.containe.entity;
+package librairy.app.containe.customers.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -11,8 +11,8 @@ import lombok.Setter;
 public class Customer {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
   private String firstName;
   private String lastName;
@@ -23,7 +23,7 @@ public class Customer {
   public Customer() {}
 
   public Customer(
-      int id, String firstName, String lastName, String email, String phone, String address) {
+      String id, String firstName, String lastName, String email, String phone, String address) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
