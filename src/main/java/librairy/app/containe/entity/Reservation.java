@@ -1,10 +1,9 @@
 package librairy.app.containe.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
-import librairy.app.containe.customers.entity.Customer;
 import lombok.Getter;
 import lombok.Setter;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "reservation")
@@ -12,38 +11,33 @@ import lombok.Setter;
 @Setter
 public class Reservation {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-  private LocalDate reservationDate;
-  private LocalDate expirationDate;
+    private LocalDate reservationDate;
+    private LocalDate expirationDate;
 
-  @Enumerated(EnumType.STRING)
-  private ReservationStatus status;
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus status;
 
-  @ManyToOne
-  @JoinColumn(name = "customer_id")
-  private Customer customer;
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
-  @OneToOne
-  @JoinColumn(name = "book_copy_id")
-  private BookCopy bookCopy;
+    @OneToOne
+    @JoinColumn(name = "book_copy_id")
+    private BookCopy bookCopy;
 
-  public Reservation() {}
+    public Reservation() {}
 
-  public Reservation(
-      int id,
-      LocalDate reservationDate,
-      LocalDate expirationDate,
-      ReservationStatus status,
-      Customer customer,
-      BookCopy bookCopy) {
-    this.id = id;
-    this.reservationDate = reservationDate;
-    this.expirationDate = expirationDate;
-    this.status = status;
-    this.customer = customer;
-    this.bookCopy = bookCopy;
-  }
+    public Reservation(int id, LocalDate reservationDate, LocalDate expirationDate,
+                       ReservationStatus status, Customer customer, BookCopy bookCopy) {
+        this.id = id;
+        this.reservationDate = reservationDate;
+        this.expirationDate = expirationDate;
+        this.status = status;
+        this.customer = customer;
+        this.bookCopy = bookCopy;
+    }
 }
