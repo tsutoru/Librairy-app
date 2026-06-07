@@ -10,22 +10,22 @@ import lombok.Setter;
 @Setter
 public class BookCopy {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id")
-    private Book book;
+  @ManyToOne
+  @JoinColumn(name = "book_id")
+  private Book book;
 
-    @Enumerated(EnumType.STRING)
-    private CopyStatus status;
+  @Enumerated(EnumType.STRING)
+  private CopyStatus status;
 
-    public BookCopy() {}
+  public BookCopy() {}
 
-    public BookCopy(int id, Book book, CopyStatus status) {
-        this.id = id;
-        this.book = book;
-        this.status = status;
-    }
+  public BookCopy(int id, Book book, CopyStatus status) {
+    this.id = id;
+    this.book = book;
+    this.status = status;
+  }
 }
