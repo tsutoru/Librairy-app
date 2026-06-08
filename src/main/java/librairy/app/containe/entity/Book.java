@@ -3,6 +3,8 @@ package librairy.app.containe.entity;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+
+import librairy.app.containe.category.entity.Category;
 import lombok.Getter;
 import lombok.Setter;
 
