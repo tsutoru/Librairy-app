@@ -2,6 +2,8 @@ package librairy.app.containe.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+
+import librairy.app.containe.book.entity.Book;
 import lombok.Getter;
 import lombok.Setter;
 
