@@ -1,13 +1,9 @@
 package librairy.app.containe.bookCopy.entity;
 
-import java.util.List;
-import java.util.UUID;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-
+import java.util.UUID;
 import librairy.app.containe.book.entity.Book;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +25,6 @@ public class BookCopy {
   @JoinColumn(name = "book_id")
   @JsonBackReference
   private Book book;
-
 
   @Enumerated(EnumType.STRING)
   private CopyStatus status;

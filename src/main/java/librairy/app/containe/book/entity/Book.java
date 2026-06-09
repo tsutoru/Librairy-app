@@ -2,13 +2,11 @@ package librairy.app.containe.book.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.util.List;
 import librairy.app.containe.bookCopy.entity.BookCopy;
 import librairy.app.containe.entity.Author;
 import librairy.app.containe.entity.Category;
-
-import java.time.LocalDate;
-import java.util.List;
-
 import lombok.*;
 
 @Entity
@@ -38,10 +36,9 @@ public class Book {
 
   @ManyToMany
   @JoinTable(
-          name = "book_author",
-          joinColumns = @JoinColumn(name = "book_id"),
-          inverseJoinColumns = @JoinColumn(name = "author_id")
-  )
+      name = "book_author",
+      joinColumns = @JoinColumn(name = "book_id"),
+      inverseJoinColumns = @JoinColumn(name = "author_id"))
   private List<Author> authors;
 
   public Book() {}
