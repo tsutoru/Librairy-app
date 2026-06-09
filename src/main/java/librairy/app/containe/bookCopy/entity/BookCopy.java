@@ -1,19 +1,18 @@
-package librairy.app.containe.entity;
+package librairy.app.containe.bookCopy.entity;
 
 import jakarta.persistence.*;
+
 import librairy.app.containe.book.entity.Book;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "book_copy")
-@Getter
-@Setter
+@AllArgsConstructor
 public class BookCopy {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
   @ManyToOne
   @JoinColumn(name = "book_id")
@@ -22,11 +21,15 @@ public class BookCopy {
   @Enumerated(EnumType.STRING)
   private CopyStatus status;
 
+  @Enumerated(EnumType.STRING)
+  private BookFormat format;
+
+
+    private int stock;
+
+    private double price;
+
   public BookCopy() {}
 
-  public BookCopy(int id, Book book, CopyStatus status) {
-    this.id = id;
-    this.book = book;
-    this.status = status;
-  }
+
 }
