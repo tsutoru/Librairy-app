@@ -21,7 +21,7 @@ public class BookService {
 
     public Book getBookById (int id) {
         return books.stream()
-                .filter(book -> book.getId() == id)
+                .filter(book -> book.getId().equals(id))
                 .findFirst()
                 .orElse(null);
     }
@@ -63,7 +63,7 @@ public class BookService {
                     }
 
         public void delete(int id) {
-             books.removeIf(book -> book.getId() == id);
+             books.removeIf(book -> book.getId().equals(id));
             }
         }
 

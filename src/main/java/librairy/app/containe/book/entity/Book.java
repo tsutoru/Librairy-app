@@ -1,6 +1,8 @@
 package librairy.app.containe.book.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import librairy.app.containe.bookCopy.entity.BookCopy;
 import librairy.app.containe.entity.Author;
 import librairy.app.containe.entity.Category;
 
@@ -12,7 +14,6 @@ import lombok.*;
 @Entity
 @Table(name = "book")
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 public class Book {
@@ -26,6 +27,10 @@ public class Book {
   private Double price;
   private LocalDate publicationDate;
   private String isbn;
+
+  @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+  @JsonManagedReference
+  private List<BookCopy> copies;
 
   @ManyToOne
   @JoinColumn(name = "category_id")

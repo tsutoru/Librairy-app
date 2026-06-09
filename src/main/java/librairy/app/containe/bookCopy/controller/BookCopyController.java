@@ -2,6 +2,10 @@ package librairy.app.containe.bookCopy.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import librairy.app.containe.bookCopy.entity.BookCopy;
+import librairy.app.containe.bookCopy.service.BookCopyService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,53 +17,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import librairy.app.containe.entity.BookCopy;
-import librairy.app.containe.bookCopy.service.BookCopyService;
+@RestController
+@RequestMapping("/book-copies")
+public class BookCopyController {
 
-@RestController 
-@RequestMapping("/book-copies") 
-public class BookCopyController { 
     private final BookCopyService service;
 
-    public BookCopyController(BookCopyService service) { 
-        this.service = service; 
+    public BookCopyController(BookCopyService service) {
+        this.service = service;
     }
 
-    @PostMapping 
-    public BookCopy create(@RequestBody BookCopy copy) { 
-        return service.create(copy); 
+    @PostMapping
+    public BookCopy create(@RequestBody BookCopy copy) {
+        return service.create(copy);
     }
 
-    @GetMapping 
-    public List<BookCopy> getAll() { 
+    @GetMapping
+    public List<BookCopy> getAll() {
         return service.getAll();
-     }
+    }
 
-    @GetMapping("/{id}") 
-    public BookCopy getById(@PathVariable int id) {
-         return service.getById(id); 
-        }
+    @GetMapping("/{id}")
+    public BookCopy getById(@PathVariable UUID id) {
+        return service.getById(id);
+    }
 
-    @GetMapping("/available") 
+    @GetMapping("/available")
     public List<BookCopy> getAvailable(
-         @RequestParam(required = false) 
-         Integer bookId 
-        ) { 
-            return service.getAvailable(bookId); 
-        }
+            @RequestParam(required = false) Integer bookId
+    ) {
+        return service.getAvailable(bookId);
+    }
 
-    @PutMapping("/{id}/status") 
+    @PutMapping("/{id}/status")
     public BookCopy updateStatus(
-         @PathVariable int id,
-         @RequestBody Map<String, String> body 
+            @PathVariable UUID id,
+            @RequestBody Map<String, String> body
+    ) {
+        return service.updateStatus(id, body.get("status"));
+    }
 
-        ) { 
-            return service.updateStatus( id, body.get("status") ); 
-        }
-
-    @DeleteMapping("/{id}") 
-    public String delete(@PathVariable int id) { 
-        service.delete(id); 
-        return "Exemplaire supprimé"; 
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable UUID id) {
+        service.delete(id);
+        return "Exemplaire supprimé";
     }
 }
