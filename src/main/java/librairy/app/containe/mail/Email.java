@@ -1,17 +1,15 @@
 package librairy.app.containe.mail;
 
 import jakarta.mail.internet.InternetAddress;
-import librairy.app.containe.PojaGenerated;
-
 import java.io.File;
 import java.util.List;
+import librairy.app.containe.PojaGenerated;
 
 @PojaGenerated
 public record Email(
-        InternetAddress to,
-        List<InternetAddress> cc,
-        List<InternetAddress> bcc,
-        String subject,
-        String htmlBody,
-        List<File> attachments) {
-}
+    InternetAddress to,
+    List<InternetAddress> cc,
+    List<InternetAddress> bcc,
+    String subject,
+    String htmlBody,
+    List<File> attachments) {}

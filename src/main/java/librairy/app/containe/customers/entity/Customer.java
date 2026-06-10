@@ -10,26 +10,25 @@ import lombok.Setter;
 @Setter
 public class Customer {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phone;
-    private String address;
+  private String firstName;
+  private String lastName;
+  private String email;
+  private String phone;
+  private String address;
 
-    public Customer() {
-    }
+  public Customer() {}
 
-    public Customer(
-            String id, String firstName, String lastName, String email, String phone, String address) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-    }
+  public Customer(
+      String id, String firstName, String lastName, String email, String phone, String address) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.phone = phone;
+    this.address = address;
+  }
 }

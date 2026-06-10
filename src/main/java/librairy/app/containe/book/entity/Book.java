@@ -2,15 +2,14 @@ package librairy.app.containe.book.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.util.List;
 import librairy.app.containe.bookCopy.entity.BookCopy;
 import librairy.app.containe.entity.Author;
 import librairy.app.containe.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "book")
@@ -19,31 +18,30 @@ import java.util.List;
 @Setter
 public class Book {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
-    private String title;
-    private String description;
-    private Double price;
-    private LocalDate publicationDate;
-    private String isbn;
+  private String title;
+  private String description;
+  private Double price;
+  private LocalDate publicationDate;
+  private String isbn;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<BookCopy> copies;
+  @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+  @JsonManagedReference
+  private List<BookCopy> copies;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+  @ManyToOne
+  @JoinColumn(name = "category_id")
+  private Category category;
 
-    @ManyToMany
-    @JoinTable(
-            name = "book_author",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private List<Author> authors;
+  @ManyToMany
+  @JoinTable(
+      name = "book_author",
+      joinColumns = @JoinColumn(name = "book_id"),
+      inverseJoinColumns = @JoinColumn(name = "author_id"))
+  private List<Author> authors;
 
-    public Book() {
-    }
+  public Book() {}
 }
