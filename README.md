@@ -2,7 +2,9 @@
 
 ## Description du projet
 
-**Library-App** est une application de gestion de librairie permettant d'administrer efficacement les livres, les ventes, les arrivages et les réservations. Son objectif principal est de faciliter la gestion du stock, le suivi des ventes ainsi que l'analyse des performances commerciales de la librairie.
+**Library-App** est une application de gestion de librairie permettant d'administrer efficacement les livres, les
+ventes, les arrivages et les réservations. Son objectif principal est de faciliter la gestion du stock, le suivi des
+ventes ainsi que l'analyse des performances commerciales de la librairie.
 
 L'application permet également de catégoriser les livres afin de simplifier leur recherche et leur organisation.
 
@@ -30,17 +32,18 @@ Représente un livre dans la librairie.
 
 ### Attributs
 
-| Attribut    | Type      | Description                        |
-|-------------|-----------|------------------------------------|
-| id          | Int       | Identifiant unique                 |
-| title       | String    | Titre du livre                     |
-| description | String    | Description du livre               |
-| price       | Double    | Prix unitaire                      |
-| publishDate | LocalDate | Date de publication                |
-| isbn        | String    | Code ISBN unique                   |
-| categoryId  | Int       | Référence vers la catégorie        |
+| Attribut    | Type      | Description                 |
+|-------------|-----------|-----------------------------|
+| id          | Int       | Identifiant unique          |
+| title       | String    | Titre du livre              |
+| description | String    | Description du livre        |
+| price       | Double    | Prix unitaire               |
+| publishDate | LocalDate | Date de publication         |
+| isbn        | String    | Code ISBN unique            |
+| categoryId  | Int       | Référence vers la catégorie |
 
->**Remarque :** Un livre peut avoir **plusieurs auteurs** (co-auteurs). La relation `Book ↔ Author` est donc **Many-to-Many** (table de jointure `book_author`).
+> **Remarque :** Un livre peut avoir **plusieurs auteurs** (co-auteurs). La relation `Book ↔ Author` est donc *
+*Many-to-Many** (table de jointure `book_author`).
 
 ---
 
@@ -50,13 +53,13 @@ Représente l'auteur d'un ou plusieurs livres.
 
 ### Attributs
 
-| Attribut    | Type   | Description              |
-|-------------|--------|--------------------------|
-| id          | Int    | Identifiant unique       |
-| firstName   | String | Prénom                   |
-| lastName    | String | Nom de famille           |
-| biography   | String | Biographie               |
-| nationality | String | Nationalité              |
+| Attribut    | Type   | Description        |
+|-------------|--------|--------------------|
+| id          | Int    | Identifiant unique |
+| firstName   | String | Prénom             |
+| lastName    | String | Nom de famille     |
+| biography   | String | Biographie         |
+| nationality | String | Nationalité        |
 
 ---
 
@@ -66,11 +69,11 @@ Permet de regrouper les livres selon leur domaine.
 
 ### Attributs
 
-| Attribut    | Type   | Description                   |
-|-------------|--------|-------------------------------|
-| id          | Int    | Identifiant unique            |
-| name        | String | Nom de la catégorie           |
-| description | String | Description de la catégorie   |
+| Attribut    | Type   | Description                 |
+|-------------|--------|-----------------------------|
+| id          | Int    | Identifiant unique          |
+| name        | String | Nom de la catégorie         |
+| description | String | Description de la catégorie |
 
 ### Exemples de catégories
 
@@ -86,15 +89,15 @@ Permet de regrouper les livres selon leur domaine.
 
 Représente une copie physique d'un livre disponible en stock.
 
-> 
+>
 
 ### Attributs
 
-| Attribut | Type | Description                        |
-|----------|------|------------------------------------|
-| id       | int  | Identifiant unique                 |
-| bookId   | int  | Référence vers le livre            |
-| status   | Enum | Statut de l'exemplaire             |
+| Attribut | Type | Description             |
+|----------|------|-------------------------|
+| id       | int  | Identifiant unique      |
+| bookId   | int  | Référence vers le livre |
+| status   | Enum | Statut de l'exemplaire  |
 
 ### Statuts possibles (Enum)
 
@@ -114,14 +117,13 @@ Permet d'enregistrer les nouveaux exemplaires entrant dans le stock.
 
 ### Attributs
 
-| Attribut    | Type      | Description                            |
-|-------------|-----------|----------------------------------------|
-| id          | int       | Identifiant unique                     |
-| arrivalDate | LocalDate | Date de l'arrivage                     |
-| quantity    | Integer   | Nombre d'exemplaires reçus             |
-| supplier    | String    | Nom du fournisseur                     |
-| bookId      | Long      | Référence vers le livre concerné       |
-
+| Attribut    | Type      | Description                      |
+|-------------|-----------|----------------------------------|
+| id          | int       | Identifiant unique               |
+| arrivalDate | LocalDate | Date de l'arrivage               |
+| quantity    | Integer   | Nombre d'exemplaires reçus       |
+| supplier    | String    | Nom du fournisseur               |
+| bookId      | Long      | Référence vers le livre concerné |
 
 ---
 
@@ -131,15 +133,14 @@ Représente une vente effectuée dans la librairie.
 
 ### Attributs
 
-| Attribut    | Type      | Description                                      |
-|-------------|-----------|--------------------------------------------------|
-| id          | int       | Identifiant unique                               |
-| saleDate    | LocalDate | Date de la vente                                 |
-| quantity    | Integer   | Nombre d'exemplaires vendus                      |
-| totalAmount | Double    | Montant total de la vente                        |
-| customerId  | Long      | Référence vers le client                         |
-| copyBookId  | Long      | Référence vers l'exemplaire vendu *(corrigé)*    |
-
+| Attribut    | Type      | Description                                   |
+|-------------|-----------|-----------------------------------------------|
+| id          | int       | Identifiant unique                            |
+| saleDate    | LocalDate | Date de la vente                              |
+| quantity    | Integer   | Nombre d'exemplaires vendus                   |
+| totalAmount | Double    | Montant total de la vente                     |
+| customerId  | Long      | Référence vers le client                      |
+| copyBookId  | Long      | Référence vers l'exemplaire vendu *(corrigé)* |
 
 ---
 
@@ -149,14 +150,14 @@ Représente une personne qui réserve ou achète un livre.
 
 ### Attributs
 
-| Attribut  | Type   | Description              |
-|-----------|--------|--------------------------|
-| id        | int    | Identifiant unique       |
-| firstName | String | Prénom                   |
-| lastName  | String | Nom de famille           |
-| email     | String | Adresse e-mail           |
-| phone     | String | Numéro de téléphone      |
-| address   | String | Adresse postale          |
+| Attribut  | Type   | Description         |
+|-----------|--------|---------------------|
+| id        | int    | Identifiant unique  |
+| firstName | String | Prénom              |
+| lastName  | String | Nom de famille      |
+| email     | String | Adresse e-mail      |
+| phone     | String | Numéro de téléphone |
+| address   | String | Adresse postale     |
 
 ---
 
@@ -166,14 +167,14 @@ Permet à un client de réserver un exemplaire de livre.
 
 ### Attributs
 
-| Attribut        | Type      | Description                              |
-|-----------------|-----------|------------------------------------------|
-| id              | int       | Identifiant unique                       |
-| reservationDate | LocalDate | Date de la réservation                   |
-| expirationDate  | LocalDate | Date d'expiration de la réservation      |
-| status          | Enum      | Statut de la réservation                 |
-| customerId      | Long      | Référence vers le client                 |
-| copyBookId      | Long      | Référence vers l'exemplaire réservé      |
+| Attribut        | Type      | Description                         |
+|-----------------|-----------|-------------------------------------|
+| id              | int       | Identifiant unique                  |
+| reservationDate | LocalDate | Date de la réservation              |
+| expirationDate  | LocalDate | Date d'expiration de la réservation |
+| status          | Enum      | Statut de la réservation            |
+| customerId      | Long      | Référence vers le client            |
+| copyBookId      | Long      | Référence vers l'exemplaire réservé |
 
 ### Statuts possibles (Enum)
 
@@ -203,16 +204,16 @@ Book >──── Category
 BookCopy ──1,1──> Reservation >──── Customer
 ```
 
-| Relation                  | Cardinalité            |
-|---------------------------|------------------------|
-| Book ↔ Author             | Many-to-Many           |
-| Book → Category           | Many-to-One            |
-| Book → BookCopy           | One-to-Many            |
-| BookCopy → Arrival        | Many-to-One            |
-| BookCopy → Sale           | Many-to-One            |
-| BookCopy → Reservation    | One-to-One             |
-| Customer → Sale           | One-to-Many            |
-| Customer → Reservation    | One-to-Many            |
+| Relation               | Cardinalité  |
+|------------------------|--------------|
+| Book ↔ Author          | Many-to-Many |
+| Book → Category        | Many-to-One  |
+| Book → BookCopy        | One-to-Many  |
+| BookCopy → Arrival     | Many-to-One  |
+| BookCopy → Sale        | Many-to-One  |
+| BookCopy → Reservation | One-to-One   |
+| Customer → Sale        | One-to-Many  |
+| Customer → Reservation | One-to-Many  |
 
 ---
 
@@ -330,33 +331,33 @@ BookCopy ──1,1──> Reservation >──── Customer
 
 # Tableau de Bord (Dashboard)
 
-| Indicateur                  | Description                              |
-|-----------------------------|------------------------------------------|
-| Nombre total de livres      | Catalogue complet                        |
-| Nombre total d'exemplaires  | Tous statuts confondus                   |
-| Exemplaires disponibles     | Statut `AVAILABLE` uniquement            |
-| Ventes aujourd'hui          | Nombre de ventes du jour                 |
-| Revenus du jour             | Total des ventes du jour                 |
-| Revenus du mois             | Total des ventes du mois en cours        |
-| Auteur le plus populaire    | Basé sur les ventes                      |
-| Catégorie la plus rentable  | Basé sur les revenus                     |
-| Livre le plus vendu         | Basé sur le nombre d'exemplaires vendus  |
-| Réservations en cours       | Statuts `PENDING` et `CONFIRMED`         |
+| Indicateur                 | Description                             |
+|----------------------------|-----------------------------------------|
+| Nombre total de livres     | Catalogue complet                       |
+| Nombre total d'exemplaires | Tous statuts confondus                  |
+| Exemplaires disponibles    | Statut `AVAILABLE` uniquement           |
+| Ventes aujourd'hui         | Nombre de ventes du jour                |
+| Revenus du jour            | Total des ventes du jour                |
+| Revenus du mois            | Total des ventes du mois en cours       |
+| Auteur le plus populaire   | Basé sur les ventes                     |
+| Catégorie la plus rentable | Basé sur les revenus                    |
+| Livre le plus vendu        | Basé sur le nombre d'exemplaires vendus |
+| Réservations en cours      | Statuts `PENDING` et `CONFIRMED`        |
 
 ---
 
 # Stack Technique
 
-| Couche           | Technologie                  |
-|------------------|------------------------------|
-| Framework        | Spring Boot                  |
-| ORM              | Spring Data JPA / Hibernate  |
-| Base de données  | PostgreSQL (prod) / H2 (dev) |
-| Sécurité         | Spring Security + JWT        |
-| Documentation    | Swagger / OpenAPI 3          |
-| Tests            | JUnit 5 + Mockito            |
-| Build            | Maven                        |
-| Initialisation   | Poja                         |
+| Couche          | Technologie                  |
+|-----------------|------------------------------|
+| Framework       | Spring Boot                  |
+| ORM             | Spring Data JPA / Hibernate  |
+| Base de données | PostgreSQL (prod) / H2 (dev) |
+| Sécurité        | Spring Security + JWT        |
+| Documentation   | Swagger / OpenAPI 3          |
+| Tests           | JUnit 5 + Mockito            |
+| Build           | Maven                        |
+| Initialisation  | Poja                         |
 
 ---
 
