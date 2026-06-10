@@ -1,7 +1,6 @@
 package librairy.app.containe.bookCopy.entity;
 
 import jakarta.persistence.*;
-
 import librairy.app.containe.book.entity.Book;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,12 +27,9 @@ public class BookCopy {
   @Enumerated(EnumType.STRING)
   private BookFormat format;
 
+  private int stock;
 
-    private int stock;
-
-    private double price;
+  private double price;
 
   public BookCopy() {}
-
-
 }
