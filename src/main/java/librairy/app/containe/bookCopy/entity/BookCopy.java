@@ -4,10 +4,14 @@ import jakarta.persistence.*;
 
 import librairy.app.containe.book.entity.Book;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "book_copy")
 @AllArgsConstructor
+@Getter
+@Setter
 public class BookCopy {
 
   @Id

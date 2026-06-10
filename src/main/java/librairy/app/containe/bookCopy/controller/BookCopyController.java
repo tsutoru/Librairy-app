@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import librairy.app.containe.entity.BookCopy;
+import librairy.app.containe.bookCopy.entity.BookCopy;
 import librairy.app.containe.bookCopy.service.BookCopyService;
 
 @RestController 
