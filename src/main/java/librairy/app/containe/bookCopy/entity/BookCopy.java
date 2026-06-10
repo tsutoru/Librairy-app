@@ -1,13 +1,16 @@
 package librairy.app.containe.bookCopy.entity;
 
 import jakarta.persistence.*;
-
 import librairy.app.containe.book.entity.Book;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "book_copy")
 @AllArgsConstructor
+@Getter
+@Setter
 public class BookCopy {
 
   @Id
@@ -24,12 +27,9 @@ public class BookCopy {
   @Enumerated(EnumType.STRING)
   private BookFormat format;
 
+  private int stock;
 
-    private int stock;
-
-    private double price;
+  private double price;
 
   public BookCopy() {}
-
-
 }
