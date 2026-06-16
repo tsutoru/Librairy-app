@@ -18,7 +18,7 @@ public class BookService {
     return book;
   }
 
-  public Book getBookById(int id) {
+  public Book getBookById(String id) {
     return books.stream().filter(book -> book.getId().equals(id)).findFirst().orElse(null);
   }
 
@@ -32,7 +32,7 @@ public class BookService {
         .toList();
   }
 
-  public Book update(int id, Book newBook) {
+  public Book update(String id, Book newBook) {
     Book book = getBookById(id);
     if (book != null) {
       book.setTitle(newBook.getTitle());
@@ -40,8 +40,8 @@ public class BookService {
       book.setPrice(newBook.getPrice());
       book.setPublicationDate(newBook.getPublicationDate());
       book.setIsbn(newBook.getIsbn());
-      //            book.setCategory(newBook.getCategory());
-      //            book.setAuthors(newBook.getAuthors());
+      book.setCategory(newBook.getCategory());
+      book.setAuthors(newBook.getAuthors());
     }
     return book;
   }
@@ -55,7 +55,7 @@ public class BookService {
         .toList();
   }
 
-  public void delete(int id) {
+  public void delete(String id) {
     books.removeIf(book -> book.getId().equals(id));
   }
 }

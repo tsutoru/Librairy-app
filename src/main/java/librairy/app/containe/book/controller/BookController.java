@@ -27,7 +27,7 @@ public class BookController {
 
   @GetMapping("/{id}")
   public Book getBookById(@PathVariable String id) {
-    return bookService.getBookById(Integer.parseInt(id));
+    return bookService.getBookById(id);
   }
 
   @GetMapping("/search")
@@ -46,6 +46,6 @@ public class BookController {
 
   @PutMapping("/{id}")
   public Book updateBook(@PathVariable String id, @RequestBody Book book) {
-    return bookService.update(Integer.parseInt(id), book);
+    return bookService.update(id, book);
   }
 }
