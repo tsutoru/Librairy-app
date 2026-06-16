@@ -17,7 +17,7 @@ public class BookController {
 
   @PostMapping
   public Book createBook(@RequestBody Book book) {
-    return bookService.Create(book);
+    return bookService.create(book);
   }
 
   @GetMapping
