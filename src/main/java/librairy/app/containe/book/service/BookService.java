@@ -23,13 +23,13 @@ public class BookService {
   }
 
   public List<Book> getBooksByCategoryId(
-          String title, String author, String category, String isbn) {
+      String title, String author, String category, String isbn) {
     return books.stream()
-            .filter(
-                    book ->
-                            (title == null || book.getTitle().toLowerCase().contains(title.toLowerCase()))
-                                    && (isbn == null || book.getIsbn().toLowerCase().contains(isbn.toLowerCase())))
-            .toList();
+        .filter(
+            book ->
+                (title == null || book.getTitle().toLowerCase().contains(title.toLowerCase()))
+                    && (isbn == null || book.getIsbn().toLowerCase().contains(isbn.toLowerCase())))
+        .toList();
   }
 
   public Book update(String id, Book newBook) {
@@ -48,11 +48,11 @@ public class BookService {
 
   public List<Book> search(String title, String author, String category, String isbn) {
     return books.stream()
-            .filter(
-                    book ->
-                            (title == null || book.getTitle().toLowerCase().contains(title.toLowerCase()))
-                                    && (isbn == null || book.getIsbn().toLowerCase().contains(isbn.toLowerCase())))
-            .toList();
+        .filter(
+            book ->
+                (title == null || book.getTitle().toLowerCase().contains(title.toLowerCase()))
+                    && (isbn == null || book.getIsbn().toLowerCase().contains(isbn.toLowerCase())))
+        .toList();
   }
 
   public void delete(String id) {

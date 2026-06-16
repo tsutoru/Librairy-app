@@ -25,11 +25,11 @@ public class BookCopyService {
 
   public List<BookCopy> getAvailable(String bookId) {
     return copies.stream()
-            .filter(
-                    copy ->
-                            copy.getStatus() == CopyStatus.AVAILABLE
-                                    && (bookId == null || copy.getBook().getId().equals(bookId)))
-            .toList();
+        .filter(
+            copy ->
+                copy.getStatus() == CopyStatus.AVAILABLE
+                    && (bookId == null || copy.getBook().getId().equals(bookId)))
+        .toList();
   }
 
   public BookCopy updateStatus(String id, String status) {
