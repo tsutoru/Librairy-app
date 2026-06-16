@@ -18,21 +18,21 @@ public class BookService {
     return book;
   }
 
-  public Book getBookById(int id) {
+  public Book getBookById(String id) {
     return books.stream().filter(book -> book.getId().equals(id)).findFirst().orElse(null);
   }
 
   public List<Book> getBooksByCategoryId(
-      String title, String author, String category, String isbn) {
+          String title, String author, String category, String isbn) {
     return books.stream()
-        .filter(
-            book ->
-                (title == null || book.getTitle().toLowerCase().contains(title.toLowerCase()))
-                    && (isbn == null || book.getIsbn().toLowerCase().contains(isbn.toLowerCase())))
-        .toList();
+            .filter(
+                    book ->
+                            (title == null || book.getTitle().toLowerCase().contains(title.toLowerCase()))
+                                    && (isbn == null || book.getIsbn().toLowerCase().contains(isbn.toLowerCase())))
+            .toList();
   }
 
-  public Book update(int id, Book newBook) {
+  public Book update(String id, Book newBook) {
     Book book = getBookById(id);
     if (book != null) {
       book.setTitle(newBook.getTitle());
@@ -48,14 +48,14 @@ public class BookService {
 
   public List<Book> search(String title, String author, String category, String isbn) {
     return books.stream()
-        .filter(
-            book ->
-                (title == null || book.getTitle().toLowerCase().contains(title.toLowerCase()))
-                    && (isbn == null || book.getIsbn().toLowerCase().contains(isbn.toLowerCase())))
-        .toList();
+            .filter(
+                    book ->
+                            (title == null || book.getTitle().toLowerCase().contains(title.toLowerCase()))
+                                    && (isbn == null || book.getIsbn().toLowerCase().contains(isbn.toLowerCase())))
+            .toList();
   }
 
-  public void delete(int id) {
+  public void delete(String id) {
     books.removeIf(book -> book.getId().equals(id));
   }
 }

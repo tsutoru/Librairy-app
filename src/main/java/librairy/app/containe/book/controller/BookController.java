@@ -27,15 +27,15 @@ public class BookController {
 
   @GetMapping("/{id}")
   public Book getBookById(@PathVariable String id) {
-    return bookService.getBookById(Integer.parseInt(id));
+    return bookService.getBookById(id);
   }
 
   @GetMapping("/search")
   public List<Book> searchBook(
-      @RequestParam(required = false) String title,
-      @RequestParam(required = false) String author,
-      @RequestParam(required = false) String category,
-      @RequestParam(required = false) String isbn) {
+          @RequestParam(required = false) String title,
+          @RequestParam(required = false) String author,
+          @RequestParam(required = false) String category,
+          @RequestParam(required = false) String isbn) {
     return bookService.search(title, author, category, isbn);
   }
 
@@ -46,6 +46,6 @@ public class BookController {
 
   @PutMapping("/{id}")
   public Book updateBook(@PathVariable String id, @RequestBody Book book) {
-    return bookService.update(Integer.parseInt(id), book);
+    return bookService.update(id, book);
   }
 }
