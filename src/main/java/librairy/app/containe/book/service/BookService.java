@@ -1,35 +1,26 @@
 package librairy.app.containe.book.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import librairy.app.containe.book.entity.Book;
+import librairy.app.containe.book.repository.BookRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BookService {
-  private final List<Book> books = new ArrayList<>();
+
+  @Autowired private BookRepository bookRepository;
 
   public List<Book> getAllBooks() {
-    return books;
+    return bookRepository.findAll();
   }
 
-  public Book Create(Book book) {
-    books.add(book);
-    return book;
+  public Book create(Book book) {
+    return bookRepository.save(book);
   }
 
   public Book getBookById(String id) {
-    return books.stream().filter(book -> book.getId().equals(id)).findFirst().orElse(null);
-  }
-
-  public List<Book> getBooksByCategoryId(
-      String title, String author, String category, String isbn) {
-    return books.stream()
-        .filter(
-            book ->
-                (title == null || book.getTitle().toLowerCase().contains(title.toLowerCase()))
-                    && (isbn == null || book.getIsbn().toLowerCase().contains(isbn.toLowerCase())))
-        .toList();
+    return bookRepository.findById((id)).orElse(null);
   }
 
   public Book update(String id, Book newBook) {
@@ -42,12 +33,13 @@ public class BookService {
       book.setIsbn(newBook.getIsbn());
       book.setCategory(newBook.getCategory());
       book.setAuthors(newBook.getAuthors());
+      return bookRepository.save(book);
     }
-    return book;
+    return null;
   }
 
   public List<Book> search(String title, String author, String category, String isbn) {
-    return books.stream()
+    return bookRepository.findAll().stream()
         .filter(
             book ->
                 (title == null || book.getTitle().toLowerCase().contains(title.toLowerCase()))
@@ -56,6 +48,6 @@ public class BookService {
   }
 
   public void delete(String id) {
-    books.removeIf(book -> book.getId().equals(id));
+    bookRepository.deleteById((id));
   }
 }

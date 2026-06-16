@@ -1,5 +1,6 @@
 package librairy.app.containe.book.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -27,6 +28,7 @@ public class Book {
 
   @ManyToOne
   @JoinColumn(name = "category_id")
+  @JsonIgnore
   private Category category;
 
   @ManyToMany
