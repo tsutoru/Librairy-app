@@ -40,8 +40,8 @@ public class BookService {
       book.setPrice(newBook.getPrice());
       book.setPublicationDate(newBook.getPublicationDate());
       book.setIsbn(newBook.getIsbn());
-      //            book.setCategory(newBook.getCategory());
-      //            book.setAuthors(newBook.getAuthors());
+      book.setCategory(newBook.getCategory());
+      book.setAuthors(newBook.getAuthors());
     }
     return book;
   }
