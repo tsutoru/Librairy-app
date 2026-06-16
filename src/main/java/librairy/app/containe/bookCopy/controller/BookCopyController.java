@@ -34,23 +34,23 @@ public class BookCopyController {
   }
 
   @GetMapping("/{id}")
-  public BookCopy getById(@PathVariable int id) {
+  public BookCopy getById(@PathVariable String id) {
     return service.getById(id);
   }
 
   @GetMapping("/available")
-  public List<BookCopy> getAvailable(@RequestParam(required = false) Integer bookId) {
+  public List<BookCopy> getAvailable(@RequestParam(required = false) String bookId) {
     return service.getAvailable(bookId);
   }
 
   @PutMapping("/{id}/status")
-  public BookCopy updateStatus(@PathVariable int id, @RequestBody Map<String, String> body) {
+  public BookCopy updateStatus(@PathVariable String id, @RequestBody Map<String, String> body) {
 
     return service.updateStatus(id, body.get("status"));
   }
 
   @DeleteMapping("/{id}")
-  public String delete(@PathVariable int id) {
+  public String delete(@PathVariable String id) {
     service.delete(id);
     return "Exemplaire supprimé";
   }

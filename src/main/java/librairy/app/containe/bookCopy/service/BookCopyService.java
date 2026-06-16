@@ -19,20 +19,20 @@ public class BookCopyService {
     return copies;
   }
 
-  public BookCopy getById(int id) {
+  public BookCopy getById(String id) {
     return copies.stream().filter(copy -> copy.getId().equals(id)).findFirst().orElse(null);
   }
 
-  public List<BookCopy> getAvailable(Integer bookId) {
+  public List<BookCopy> getAvailable(String bookId) {
     return copies.stream()
-        .filter(
-            copy ->
-                copy.getStatus() == CopyStatus.AVAILABLE
-                    && (bookId == null || copy.getBook().getId().equals(bookId)))
-        .toList();
+            .filter(
+                    copy ->
+                            copy.getStatus() == CopyStatus.AVAILABLE
+                                    && (bookId == null || copy.getBook().getId().equals(bookId)))
+            .toList();
   }
 
-  public BookCopy updateStatus(int id, String status) {
+  public BookCopy updateStatus(String id, String status) {
     BookCopy copy = getById(id);
 
     if (copy != null) {
@@ -41,7 +41,7 @@ public class BookCopyService {
     return copy;
   }
 
-  public void delete(int id) {
+  public void delete(String id) {
     copies.removeIf(copy -> copy.getId().equals(id));
   }
 }
