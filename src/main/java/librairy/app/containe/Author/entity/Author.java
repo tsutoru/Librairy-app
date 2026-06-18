@@ -1,8 +1,10 @@
-package librairy.app.containe.entity;
+package librairy.app.containe.Author.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.UUID;
 
 @Entity
 @Table(name = "author")
@@ -11,8 +13,8 @@ import lombok.Setter;
 public class Author {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
 
   private String firstName;
   private String lastName;
@@ -21,7 +23,8 @@ public class Author {
 
   public Author() {}
 
-  public Author(int id, String firstName, String lastName, String biography, String nationality) {
+  public Author(
+      UUID id, String firstName, String lastName, String biography, String nationality) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;

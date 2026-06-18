@@ -3,7 +3,6 @@ package librairy.app.containe.book.controller;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.persistence.Id;
 import librairy.app.containe.book.entity.Book;
 import librairy.app.containe.book.service.BookService;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +19,7 @@ public class BookController {
 
   @PostMapping
   public Book createBook(@RequestBody Book book) {
-    return bookService.Create(book);
+    return bookService.create(book);
   }
 
   @GetMapping
@@ -30,7 +29,6 @@ public class BookController {
 
   @GetMapping("/{id}")
   public Book getBookById(@PathVariable UUID id) {
-
     return bookService.getBookById(id);
   }
 

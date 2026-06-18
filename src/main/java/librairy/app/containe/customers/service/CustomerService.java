@@ -1,6 +1,8 @@
 package librairy.app.containe.customers.service;
 
 import java.util.List;
+import java.util.UUID;
+
 import librairy.app.containe.customers.entity.Customer;
 import librairy.app.containe.customers.repository.CustomerRepository;
 import librairy.app.containe.exception.BadRequestException;
@@ -17,7 +19,7 @@ public class CustomerService {
     return customerRepository.findAll();
   }
 
-  public Customer getById(String id) {
+  public Customer getById(UUID id) {
     return customerRepository
         .findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("Customer not found: " + id));
@@ -30,7 +32,7 @@ public class CustomerService {
     return customerRepository.save(customer);
   }
 
-  public Customer update(String id, Customer updated) {
+  public Customer update(UUID id, Customer updated) {
     Customer existing = getById(id);
     existing.setFirstName(updated.getFirstName());
     existing.setLastName(updated.getLastName());
@@ -40,7 +42,7 @@ public class CustomerService {
     return customerRepository.save(existing);
   }
 
-  public void delete(String id) {
+  public void delete(UUID id) {
     customerRepository.deleteById(id);
   }
 }

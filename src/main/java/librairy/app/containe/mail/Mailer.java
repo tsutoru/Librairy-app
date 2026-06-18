@@ -1,6 +1,8 @@
 package librairy.app.containe.mail;
 
-import static jakarta.mail.Message.RecipientType.*;
+import static jakarta.mail.Message.RecipientType.BCC;
+import static jakarta.mail.Message.RecipientType.CC;
+import static jakarta.mail.Message.RecipientType.TO;
 
 import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
@@ -33,14 +35,6 @@ import software.amazon.awssdk.services.ses.model.SendRawEmailRequest;
 public class Mailer implements Consumer<Email> {
   private final EmailConf emailConf;
   private final FileTyper fileTyper;
-
-  private static void addBodyPart(MimeMultipart mimeMultipart, MimeBodyPart mimeBodyPart) {
-    try {
-      mimeMultipart.addBodyPart(mimeBodyPart);
-    } catch (MessagingException e) {
-      throw new RuntimeException(e);
-    }
-  }
 
   @Override
   public void accept(Email email) {
@@ -91,6 +85,14 @@ public class Mailer implements Consumer<Email> {
     mimeMultipart.addBodyPart(htmlPart);
     attachmentsAsMimeBodyParts.forEach(mimeBodyPart -> addBodyPart(mimeMultipart, mimeBodyPart));
     return mimeMultipart;
+  }
+
+  private static void addBodyPart(MimeMultipart mimeMultipart, MimeBodyPart mimeBodyPart) {
+    try {
+      mimeMultipart.addBodyPart(mimeBodyPart);
+    } catch (MessagingException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private MimeBodyPart toMimeBodyPart(File attachment) {

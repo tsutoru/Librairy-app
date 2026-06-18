@@ -3,6 +3,7 @@ package librairy.app.containe.bookCopy.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 import librairy.app.containe.bookCopy.entity.BookCopy;
 import librairy.app.containe.bookCopy.entity.CopyStatus;
 import org.springframework.stereotype.Service;
@@ -17,16 +18,15 @@ public class BookCopyService {
   }
 
   public List<BookCopy> getAll() {
-
     return copies;
-
   }
 
   public BookCopy getById(UUID id) {
-    return copies.stream().filter(copy -> copy.getId().equals(id)).findFirst().orElse(null);
+    return copies.stream()
+            .filter(copy -> copy.getId().equals(id)).findFirst().orElse(null);
   }
 
-  public List<BookCopy> getAvailable(Integer bookId) {
+  public List<BookCopy> getAvailable(UUID bookId) {
     return copies.stream()
         .filter(
             copy ->
@@ -36,13 +36,11 @@ public class BookCopyService {
   }
 
   public BookCopy updateStatus(UUID id, String status) {
-
     BookCopy copy = getById(id);
 
     if (copy != null) {
-      copy.setStatus(CopyStatus.valueOf(status.toUpperCase()));
+      copy.setStatus(CopyStatus.valueOf(status));
     }
-
     return copy;
   }
 

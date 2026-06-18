@@ -1,21 +1,20 @@
 package librairy.app.containe.book.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import librairy.app.containe.Author.entity.Author;
 import librairy.app.containe.bookCopy.entity.BookCopy;
-import librairy.app.containe.entity.Author;
-import librairy.app.containe.entity.Category;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import librairy.app.containe.category.entity.Category;
+import lombok.*;
 
 @Entity
 @Table(name = "book")
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class Book {
@@ -30,12 +29,9 @@ public class Book {
   private LocalDate publicationDate;
   private String isbn;
 
-  @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
-  @JsonManagedReference
-  private List<BookCopy> copies;
-
   @ManyToOne
   @JoinColumn(name = "category_id")
+  @JsonIgnore
   private Category category;
 
   @ManyToMany
@@ -44,6 +40,4 @@ public class Book {
       joinColumns = @JoinColumn(name = "book_id"),
       inverseJoinColumns = @JoinColumn(name = "author_id"))
   private List<Author> authors;
-
-  public Book() {}
 }

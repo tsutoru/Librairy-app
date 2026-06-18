@@ -1,6 +1,8 @@
 package librairy.app.containe.customers.controller;
 
 import java.util.List;
+import java.util.UUID;
+
 import librairy.app.containe.customers.entity.Customer;
 import librairy.app.containe.customers.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -19,7 +21,7 @@ public class CustomerController {
   }
 
   @GetMapping("/{id}")
-  public Customer getById(@PathVariable String id) {
+  public Customer getById(@PathVariable UUID id) {
     return customerService.getById(id);
   }
 
@@ -30,13 +32,13 @@ public class CustomerController {
   }
 
   @PutMapping("/{id}")
-  public Customer update(@PathVariable String id, @RequestBody Customer customer) {
+  public Customer update(@PathVariable UUID id, @RequestBody Customer customer) {
     return customerService.update(id, customer);
   }
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void delete(@PathVariable String id) {
+  public void delete(@PathVariable UUID id) {
     customerService.delete(id);
   }
 }

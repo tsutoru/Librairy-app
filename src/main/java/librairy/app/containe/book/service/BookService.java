@@ -1,47 +1,37 @@
 package librairy.app.containe.book.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import librairy.app.containe.book.entity.Book;
+import librairy.app.containe.book.repository.BookRepository;
 import librairy.app.containe.exception.BadRequestException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BookService {
-  private final List<Book> books = new ArrayList<>();
+
+  @Autowired private BookRepository bookRepository;
 
   public List<Book> getAllBooks() {
-    return books;
+    return bookRepository.findAll();
   }
 
-  public Book Create(Book book) {
-    books.add(book);
-    return book;
+  public Book create(Book book) {
+    return bookRepository.save(book);
   }
 
   public Book getBookById(UUID id) {
-    return books.stream()
-            .filter(book -> book.getId().equals(id))
-            .findFirst()
+
+    return bookRepository
+            .findById((id))
             .orElseThrow(()-> new BadRequestException("Book not found"));
-
-  }
-
-  public List<Book> getBooksByCategoryId(
-      String title, String author, String category, String isbn) {
-    return books.stream()
-        .filter(
-            book ->
-                (title == null || book.getTitle().toLowerCase().contains(title.toLowerCase()))
-                    && (isbn == null || book.getIsbn().toLowerCase().contains(isbn.toLowerCase())))
-        .toList();
   }
 
   public Book update(UUID id, Book newBook) {
     Book book = getBookById(id);
-    if (book != null) {
+
       book.setTitle(newBook.getTitle());
       book.setDescription(newBook.getDescription());
       book.setPrice(newBook.getPrice());
@@ -49,12 +39,13 @@ public class BookService {
       book.setIsbn(newBook.getIsbn());
       book.setCategory(newBook.getCategory());
       book.setAuthors(newBook.getAuthors());
-    }
-    return book;
+
+      return bookRepository.save(book);
+
   }
 
   public List<Book> search(String title, String author, String category, String isbn) {
-    return books.stream()
+    return bookRepository.findAll().stream()
         .filter(
             book ->
                 (title == null || book.getTitle().toLowerCase().contains(title.toLowerCase()))
@@ -63,6 +54,6 @@ public class BookService {
   }
 
   public void delete(UUID id) {
-    books.removeIf(book -> book.getId().equals(id));
+    bookRepository.deleteById((id));
   }
 }

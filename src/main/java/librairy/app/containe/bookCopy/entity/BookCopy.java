@@ -1,20 +1,18 @@
 package librairy.app.containe.bookCopy.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import java.util.UUID;
 import librairy.app.containe.book.entity.Book;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.UUID;
 
 @Entity
 @Table(name = "book_copy")
+@AllArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class BookCopy {
 
   @Id
@@ -23,7 +21,6 @@ public class BookCopy {
 
   @ManyToOne
   @JoinColumn(name = "book_id")
-  @JsonBackReference
   private Book book;
 
   @Enumerated(EnumType.STRING)
@@ -35,4 +32,6 @@ public class BookCopy {
   private int stock;
 
   private double price;
+
+  public BookCopy() {}
 }

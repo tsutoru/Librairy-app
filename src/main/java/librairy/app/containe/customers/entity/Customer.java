@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "customer")
 @Getter
@@ -12,7 +14,7 @@ public class Customer {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  private String id;
+  private UUID id;
 
   private String firstName;
   private String lastName;
@@ -23,7 +25,7 @@ public class Customer {
   public Customer() {}
 
   public Customer(
-      String id, String firstName, String lastName, String email, String phone, String address) {
+      UUID id, String firstName, String lastName, String email, String phone, String address) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
