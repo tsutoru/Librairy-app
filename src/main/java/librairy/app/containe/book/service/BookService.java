@@ -2,7 +2,10 @@ package librairy.app.containe.book.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
 import librairy.app.containe.book.entity.Book;
+import librairy.app.containe.exception.BadRequestException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,8 +21,12 @@ public class BookService {
     return book;
   }
 
-  public Book getBookById(int id) {
-    return books.stream().filter(book -> book.getId().equals(id)).findFirst().orElse(null);
+  public Book getBookById(UUID id) {
+    return books.stream()
+            .filter(book -> book.getId().equals(id))
+            .findFirst()
+            .orElseThrow(()-> new BadRequestException("Book not found"));
+
   }
 
   public List<Book> getBooksByCategoryId(
@@ -32,7 +39,7 @@ public class BookService {
         .toList();
   }
 
-  public Book update(int id, Book newBook) {
+  public Book update(UUID id, Book newBook) {
     Book book = getBookById(id);
     if (book != null) {
       book.setTitle(newBook.getTitle());
@@ -55,7 +62,7 @@ public class BookService {
         .toList();
   }
 
-  public void delete(int id) {
+  public void delete(UUID id) {
     books.removeIf(book -> book.getId().equals(id));
   }
 }

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
+
 import librairy.app.containe.bookCopy.entity.BookCopy;
 import librairy.app.containe.entity.Author;
 import librairy.app.containe.entity.Category;
@@ -20,7 +22,7 @@ public class Book {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  private String id;
+  private UUID id;
 
   private String title;
   private String description;

@@ -1,6 +1,9 @@
 package librairy.app.containe.book.controller;
 
 import java.util.List;
+import java.util.UUID;
+
+import jakarta.persistence.Id;
 import librairy.app.containe.book.entity.Book;
 import librairy.app.containe.book.service.BookService;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +29,9 @@ public class BookController {
   }
 
   @GetMapping("/{id}")
-  public Book getBookById(@PathVariable String id) {
-    return bookService.getBookById(Integer.parseInt(id));
+  public Book getBookById(@PathVariable UUID id) {
+
+    return bookService.getBookById(id);
   }
 
   @GetMapping("/search")
@@ -40,12 +44,12 @@ public class BookController {
   }
 
   @GetMapping("/{id}/copies")
-  public String getCopiesByBookId(@PathVariable String id) {
+  public String getCopiesByBookId(@PathVariable UUID id) {
     return "Liste des exemplaires du livre " + id;
   }
 
   @PutMapping("/{id}")
-  public Book updateBook(@PathVariable String id, @RequestBody Book book) {
-    return bookService.update(Integer.parseInt(id), book);
+  public Book updateBook(@PathVariable UUID id, @RequestBody Book book) {
+    return bookService.update(id, book);
   }
 }

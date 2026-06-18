@@ -17,7 +17,9 @@ public class BookCopyService {
   }
 
   public List<BookCopy> getAll() {
+
     return copies;
+
   }
 
   public BookCopy getById(UUID id) {
