@@ -6,9 +6,12 @@ import static org.mockito.Mockito.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import librairy.app.containe.book.entity.Book;
 import librairy.app.containe.book.repository.BookRepository;
 import librairy.app.containe.book.service.BookService;
+import librairy.app.containe.exception.BadRequestException;
+import librairy.app.containe.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,11 +27,13 @@ class BookServiceTest {
   @InjectMocks private BookService bookService;
 
   private Book book;
+  private String validId;
 
   @BeforeEach
   void setUp() {
+    validId = UUID.randomUUID().toString();
     book = new Book();
-    book.setId("book-1");
+    book.setId(validId);
     book.setTitle("Clean Code");
     book.setDescription("A book about writing clean code");
     book.setPrice(29.99);
@@ -47,6 +52,28 @@ class BookServiceTest {
   }
 
   @Test
+  void create_shouldGenerateId_whenIdIsNull() {
+    Book newBook = new Book();
+    newBook.setTitle("New Book");
+    newBook.setDescription("Description");
+    newBook.setPrice(19.99);
+
+    when(bookRepository.save(any(Book.class)))
+        .thenAnswer(
+            invocation -> {
+              Book saved = invocation.getArgument(0);
+              saved.setId(UUID.randomUUID().toString());
+              return saved;
+            });
+
+    Book result = bookService.create(newBook);
+
+    assertNotNull(result.getId());
+    assertEquals("New Book", result.getTitle());
+    verify(bookRepository, times(1)).save(any(Book.class));
+  }
+
+  @Test
   void getAllBooks_shouldReturnAllBooks() {
     when(bookRepository.findAll()).thenReturn(List.of(book));
 
@@ -59,23 +86,28 @@ class BookServiceTest {
 
   @Test
   void getBookById_shouldReturnBook_whenExists() {
-    when(bookRepository.findById("book-1")).thenReturn(Optional.of(book));
+    when(bookRepository.findById(validId)).thenReturn(Optional.of(book));
 
-    Book result = bookService.getBookById("book-1");
+    Book result = bookService.getBookById(validId);
 
     assertNotNull(result);
     assertEquals("Clean Code", result.getTitle());
-    verify(bookRepository, times(1)).findById("book-1");
+    verify(bookRepository, times(1)).findById(validId);
   }
 
   @Test
-  void getBookById_shouldReturnNull_whenNotFound() {
-    when(bookRepository.findById("unknown-id")).thenReturn(Optional.empty());
+  void getBookById_shouldThrowNotFoundException_whenNotFound() {
+    String nonExistentId = UUID.randomUUID().toString();
+    when(bookRepository.findById(nonExistentId)).thenReturn(Optional.empty());
 
-    Book result = bookService.getBookById("unknown-id");
+    assertThrows(NotFoundException.class, () -> bookService.getBookById(nonExistentId));
+    verify(bookRepository, times(1)).findById(nonExistentId);
+  }
 
-    assertNull(result);
-    verify(bookRepository, times(1)).findById("unknown-id");
+  @Test
+  void getBookById_shouldThrowBadRequestException_whenInvalidUUID() {
+    assertThrows(BadRequestException.class, () -> bookService.getBookById("invalid-id"));
+    verify(bookRepository, never()).findById(any());
   }
 
   @Test
@@ -112,7 +144,7 @@ class BookServiceTest {
   @Test
   void update_shouldModifyExistingBook() {
     Book updatedBook = new Book();
-    updatedBook.setId("book-1");
+    updatedBook.setId(validId);
     updatedBook.setTitle("Clean Code - 2nd Edition");
     updatedBook.setDescription("Updated description");
     updatedBook.setPrice(34.99);
@@ -124,47 +156,66 @@ class BookServiceTest {
     updatedData.setPrice(34.99);
     updatedData.setIsbn("978-0132350884");
 
-    when(bookRepository.findById("book-1")).thenReturn(Optional.of(book));
+    when(bookRepository.findById(validId)).thenReturn(Optional.of(book));
     when(bookRepository.save(any(Book.class))).thenReturn(updatedBook);
 
-    Book result = bookService.update("book-1", updatedData);
+    Book result = bookService.update(validId, updatedData);
 
     assertNotNull(result);
     assertEquals("Clean Code - 2nd Edition", result.getTitle());
     assertEquals(34.99, result.getPrice());
-    verify(bookRepository, times(1)).findById("book-1");
+    verify(bookRepository, times(1)).findById(validId);
     verify(bookRepository, times(1)).save(any(Book.class));
   }
 
   @Test
-  void update_shouldReturnNull_whenBookNotFound() {
+  void update_shouldThrowNotFoundException_whenBookNotFound() {
+    String nonExistentId = UUID.randomUUID().toString();
     Book updatedData = new Book();
     updatedData.setTitle("Doesn't matter");
 
-    when(bookRepository.findById("unknown-id")).thenReturn(Optional.empty());
+    when(bookRepository.findById(nonExistentId)).thenReturn(Optional.empty());
 
-    Book result = bookService.update("unknown-id", updatedData);
+    assertThrows(NotFoundException.class, () -> bookService.update(nonExistentId, updatedData));
+    verify(bookRepository, times(1)).findById(nonExistentId);
+    verify(bookRepository, never()).save(any(Book.class));
+  }
 
-    assertNull(result);
-    verify(bookRepository, times(1)).findById("unknown-id");
+  @Test
+  void update_shouldThrowBadRequestException_whenInvalidUUID() {
+    Book updatedData = new Book();
+    updatedData.setTitle("Doesn't matter");
+
+    assertThrows(BadRequestException.class, () -> bookService.update("invalid-id", updatedData));
+    verify(bookRepository, never()).findById(any());
     verify(bookRepository, never()).save(any(Book.class));
   }
 
   @Test
   void delete_shouldRemoveBookFromList() {
-    doNothing().when(bookRepository).deleteById("book-1");
+    when(bookRepository.findById(validId)).thenReturn(Optional.of(book));
+    doNothing().when(bookRepository).deleteById(validId);
 
-    bookService.delete("book-1");
+    bookService.delete(validId);
 
-    verify(bookRepository, times(1)).deleteById("book-1");
+    verify(bookRepository, times(1)).findById(validId);
+    verify(bookRepository, times(1)).deleteById(validId);
   }
 
   @Test
-  void delete_shouldDoNothing_whenIdNotFound() {
-    doNothing().when(bookRepository).deleteById("unknown-id");
+  void delete_shouldThrowNotFoundException_whenIdNotFound() {
+    String nonExistentId = UUID.randomUUID().toString();
+    when(bookRepository.findById(nonExistentId)).thenReturn(Optional.empty());
 
-    bookService.delete("unknown-id");
+    assertThrows(NotFoundException.class, () -> bookService.delete(nonExistentId));
+    verify(bookRepository, times(1)).findById(nonExistentId);
+    verify(bookRepository, never()).deleteById(any());
+  }
 
-    verify(bookRepository, times(1)).deleteById("unknown-id");
+  @Test
+  void delete_shouldThrowBadRequestException_whenInvalidUUID() {
+    assertThrows(BadRequestException.class, () -> bookService.delete("invalid-id"));
+    verify(bookRepository, never()).findById(any());
+    verify(bookRepository, never()).deleteById(any());
   }
 }
