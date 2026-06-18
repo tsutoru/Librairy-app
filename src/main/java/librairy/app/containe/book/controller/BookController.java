@@ -1,9 +1,12 @@
 package librairy.app.containe.book.controller;
 
+import java.net.URI;
 import java.util.List;
 import librairy.app.containe.book.entity.Book;
 import librairy.app.containe.book.service.BookService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/books")
@@ -16,8 +19,14 @@ public class BookController {
   }
 
   @PostMapping
-  public Book createBook(@RequestBody Book book) {
-    return bookService.create(book);
+  public ResponseEntity<Book> createBook(@RequestBody Book book) {
+    Book createdBook = bookService.create(book);
+    URI location =
+        ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(createdBook.getId())
+            .toUri();
+    return ResponseEntity.created(location).body(createdBook);
   }
 
   @GetMapping
@@ -41,11 +50,17 @@ public class BookController {
 
   @GetMapping("/{id}/copies")
   public String getCopiesByBookId(@PathVariable String id) {
-    return "Liste des exemplaires du livre " + id;
+    return "List of copies for book " + id;
   }
 
   @PutMapping("/{id}")
   public Book updateBook(@PathVariable String id, @RequestBody Book book) {
     return bookService.update(id, book);
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteBook(@PathVariable String id) {
+    bookService.delete(id);
+    return ResponseEntity.noContent().build();
   }
 }

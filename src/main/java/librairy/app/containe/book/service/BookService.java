@@ -1,31 +1,58 @@
 package librairy.app.containe.book.service;
 
 import java.util.List;
+import java.util.UUID;
 import librairy.app.containe.book.entity.Book;
 import librairy.app.containe.book.repository.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import librairy.app.containe.exception.BadRequestException;
+import librairy.app.containe.exception.NotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BookService {
 
-  @Autowired private BookRepository bookRepository;
+  private final BookRepository bookRepository;
+
+  public BookService(BookRepository bookRepository) {
+    this.bookRepository = bookRepository;
+  }
 
   public List<Book> getAllBooks() {
     return bookRepository.findAll();
   }
 
   public Book create(Book book) {
-    return bookRepository.save(book);
+    try {
+      return bookRepository.save(book);
+    } catch (DataIntegrityViolationException e) {
+      throw new BadRequestException("Book data is invalid: " + e.getMessage());
+    }
   }
 
   public Book getBookById(String id) {
-    return bookRepository.findById((id)).orElse(null);
+    try {
+      UUID.fromString(id);
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException(
+          "Invalid UUID format: " + id + ". UUID must be a valid 36-character string.");
+    }
+
+    return bookRepository
+        .findById(id)
+        .orElseThrow(() -> new NotFoundException("Book with id " + id + " not found"));
   }
 
   public Book update(String id, Book newBook) {
+    try {
+      UUID.fromString(id);
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException(
+          "Invalid UUID format: " + id + ". UUID must be a valid 36-character string.");
+    }
+
     Book book = getBookById(id);
-    if (book != null) {
+    try {
       book.setTitle(newBook.getTitle());
       book.setDescription(newBook.getDescription());
       book.setPrice(newBook.getPrice());
@@ -34,8 +61,9 @@ public class BookService {
       book.setCategory(newBook.getCategory());
       book.setAuthors(newBook.getAuthors());
       return bookRepository.save(book);
+    } catch (DataIntegrityViolationException e) {
+      throw new BadRequestException("Book data is invalid: " + e.getMessage());
     }
-    return null;
   }
 
   public List<Book> search(String title, String author, String category, String isbn) {
@@ -48,6 +76,14 @@ public class BookService {
   }
 
   public void delete(String id) {
-    bookRepository.deleteById((id));
+    try {
+      UUID.fromString(id);
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException(
+          "Invalid UUID format: " + id + ". UUID must be a valid 36-character string.");
+    }
+
+    Book book = getBookById(id);
+    bookRepository.deleteById(id);
   }
 }
