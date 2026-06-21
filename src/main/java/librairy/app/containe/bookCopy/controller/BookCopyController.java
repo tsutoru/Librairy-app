@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import librairy.app.containe.bookCopy.entity.BookCopy;
 import librairy.app.containe.bookCopy.service.BookCopyService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,34 +26,40 @@ public class BookCopyController {
   }
 
   @PostMapping
-  public BookCopy create(@RequestBody BookCopy copy) {
-    return service.create(copy);
+  public ResponseEntity<BookCopy> create(@RequestBody BookCopy copy) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(service.create(copy));
   }
 
   @GetMapping
-  public List<BookCopy> getAll() {
-    return service.getAll();
+  public ResponseEntity<List<BookCopy>> getAll() {
+    return ResponseEntity.ok(service.getAll());
   }
 
   @GetMapping("/{id}")
-  public BookCopy getById(@PathVariable String id) {
-    return service.getById(id);
+  public ResponseEntity<BookCopy> getById(@PathVariable String id) {
+    return ResponseEntity.ok(service.getById(id));
   }
 
   @GetMapping("/available")
-  public List<BookCopy> getAvailable(@RequestParam(required = false) String bookId) {
-    return service.getAvailable(bookId);
+  public ResponseEntity<List<BookCopy>> getAvailable(
+          @RequestParam(required = false) String bookId) {
+    return ResponseEntity.ok(service.getAvailable(bookId));
+  }
+
+  @GetMapping("/{bookId}/copies/stock")
+  public ResponseEntity<Integer> getStockByBookId(@PathVariable String bookId) {
+    return ResponseEntity.ok(service.getStockByBookId(bookId));
   }
 
   @PutMapping("/{id}/status")
-  public BookCopy updateStatus(@PathVariable String id, @RequestBody Map<String, String> body) {
-
-    return service.updateStatus(id, body.get("status"));
+  public ResponseEntity<BookCopy> updateStatus(
+          @PathVariable String id, @RequestBody Map<String, String> body) {
+    return ResponseEntity.ok(service.updateStatus(id, body.get("status")));
   }
 
   @DeleteMapping("/{id}")
-  public String delete(@PathVariable String id) {
+  public ResponseEntity<Void> delete(@PathVariable String id) {
     service.delete(id);
-    return "Exemplaire supprimé";
+    return ResponseEntity.noContent().build();
   }
 }
