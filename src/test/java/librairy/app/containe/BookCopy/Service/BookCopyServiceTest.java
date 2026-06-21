@@ -24,11 +24,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class BookCopyServiceTest {
 
-  @Mock
-  private BookCopyRepository bookCopyRepository;
+  @Mock private BookCopyRepository bookCopyRepository;
 
-  @InjectMocks
-  private BookCopyService bookCopyService;
+  @InjectMocks private BookCopyService bookCopyService;
 
   private BookCopy copy;
   private Book book;
@@ -73,8 +71,7 @@ class BookCopyServiceTest {
 
   @Test
   void getById_shouldReturnCopy_whenExists() {
-    when(bookCopyRepository.findById(validCopyId))
-            .thenReturn(Optional.of(copy));
+    when(bookCopyRepository.findById(validCopyId)).thenReturn(Optional.of(copy));
 
     BookCopy result = bookCopyService.getById(validCopyId);
 
@@ -86,25 +83,21 @@ class BookCopyServiceTest {
   @Test
   void getById_shouldThrowNotFoundException_whenNotFound() {
     String nonExistentId = UUID.randomUUID().toString();
-    when(bookCopyRepository.findById(nonExistentId))
-            .thenReturn(Optional.empty());
+    when(bookCopyRepository.findById(nonExistentId)).thenReturn(Optional.empty());
 
-    assertThrows(NotFoundException.class,
-            () -> bookCopyService.getById(nonExistentId));
+    assertThrows(NotFoundException.class, () -> bookCopyService.getById(nonExistentId));
     verify(bookCopyRepository, times(1)).findById(nonExistentId);
   }
 
   @Test
   void getById_shouldThrowBadRequestException_whenInvalidUUID() {
-    assertThrows(BadRequestException.class,
-            () -> bookCopyService.getById("invalid-uuid"));
+    assertThrows(BadRequestException.class, () -> bookCopyService.getById("invalid-uuid"));
     verify(bookCopyRepository, never()).findById(any());
   }
 
   @Test
   void getAvailable_shouldReturnAllAvailable_whenNoBookId() {
-    when(bookCopyRepository.findByStatus(CopyStatus.AVAILABLE))
-            .thenReturn(List.of(copy));
+    when(bookCopyRepository.findByStatus(CopyStatus.AVAILABLE)).thenReturn(List.of(copy));
 
     List<BookCopy> result = bookCopyService.getAvailable(null);
 
@@ -115,38 +108,34 @@ class BookCopyServiceTest {
   @Test
   void getAvailable_shouldFilterByBookId() {
     when(bookCopyRepository.findByBookIdAndStatus(validBookId, CopyStatus.AVAILABLE))
-            .thenReturn(List.of(copy));
+        .thenReturn(List.of(copy));
 
     List<BookCopy> result = bookCopyService.getAvailable(validBookId);
 
     assertEquals(1, result.size());
-    verify(bookCopyRepository, times(1))
-            .findByBookIdAndStatus(validBookId, CopyStatus.AVAILABLE);
+    verify(bookCopyRepository, times(1)).findByBookIdAndStatus(validBookId, CopyStatus.AVAILABLE);
   }
 
   @Test
   void getStockByBookId_shouldReturnCount() {
     when(bookCopyRepository.countByBookIdAndStatus(validBookId, CopyStatus.AVAILABLE))
-            .thenReturn(5);
+        .thenReturn(5);
 
     int result = bookCopyService.getStockByBookId(validBookId);
 
     assertEquals(5, result);
-    verify(bookCopyRepository, times(1))
-            .countByBookIdAndStatus(validBookId, CopyStatus.AVAILABLE);
+    verify(bookCopyRepository, times(1)).countByBookIdAndStatus(validBookId, CopyStatus.AVAILABLE);
   }
 
   @Test
   void getStockByBookId_shouldThrowBadRequestException_whenInvalidUUID() {
-    assertThrows(BadRequestException.class,
-            () -> bookCopyService.getStockByBookId("invalid-uuid"));
+    assertThrows(BadRequestException.class, () -> bookCopyService.getStockByBookId("invalid-uuid"));
     verify(bookCopyRepository, never()).countByBookIdAndStatus(any(), any());
   }
 
   @Test
   void updateStatus_shouldChangeStatus_whenCopyExists() {
-    when(bookCopyRepository.findById(validCopyId))
-            .thenReturn(Optional.of(copy));
+    when(bookCopyRepository.findById(validCopyId)).thenReturn(Optional.of(copy));
     when(bookCopyRepository.save(any(BookCopy.class))).thenReturn(copy);
 
     BookCopy result = bookCopyService.updateStatus(validCopyId, "SOLD");
@@ -158,24 +147,23 @@ class BookCopyServiceTest {
 
   @Test
   void updateStatus_shouldThrowBadRequestException_whenInvalidStatus() {
-    when(bookCopyRepository.findById(validCopyId))
-            .thenReturn(Optional.of(copy));
+    when(bookCopyRepository.findById(validCopyId)).thenReturn(Optional.of(copy));
 
-    assertThrows(BadRequestException.class,
-            () -> bookCopyService.updateStatus(validCopyId, "INVALID_STATUS"));
+    assertThrows(
+        BadRequestException.class,
+        () -> bookCopyService.updateStatus(validCopyId, "INVALID_STATUS"));
   }
 
   @Test
   void updateStatus_shouldThrowBadRequestException_whenInvalidUUID() {
-    assertThrows(BadRequestException.class,
-            () -> bookCopyService.updateStatus("invalid-uuid", "SOLD"));
+    assertThrows(
+        BadRequestException.class, () -> bookCopyService.updateStatus("invalid-uuid", "SOLD"));
     verify(bookCopyRepository, never()).findById(any());
   }
 
   @Test
   void delete_shouldDeleteCopy_whenExists() {
-    when(bookCopyRepository.findById(validCopyId))
-            .thenReturn(Optional.of(copy));
+    when(bookCopyRepository.findById(validCopyId)).thenReturn(Optional.of(copy));
 
     bookCopyService.delete(validCopyId);
 
@@ -185,18 +173,15 @@ class BookCopyServiceTest {
   @Test
   void delete_shouldThrowNotFoundException_whenNotFound() {
     String nonExistentId = UUID.randomUUID().toString();
-    when(bookCopyRepository.findById(nonExistentId))
-            .thenReturn(Optional.empty());
+    when(bookCopyRepository.findById(nonExistentId)).thenReturn(Optional.empty());
 
-    assertThrows(NotFoundException.class,
-            () -> bookCopyService.delete(nonExistentId));
+    assertThrows(NotFoundException.class, () -> bookCopyService.delete(nonExistentId));
     verify(bookCopyRepository, never()).deleteById(any());
   }
 
   @Test
   void delete_shouldThrowBadRequestException_whenInvalidUUID() {
-    assertThrows(BadRequestException.class,
-            () -> bookCopyService.delete("invalid-uuid"));
+    assertThrows(BadRequestException.class, () -> bookCopyService.delete("invalid-uuid"));
     verify(bookCopyRepository, never()).findById(any());
   }
 }
