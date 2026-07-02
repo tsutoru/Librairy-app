@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import librairy.app.containe.book.entity.Book;
 import librairy.app.containe.bookCopy.entity.BookCopy;
-import librairy.app.containe.stockMovement.MovementType;
+import librairy.app.containe.stockMovement.entity.MovementType;
 import lombok.Getter;
 import lombok.Setter;
 
