@@ -16,70 +16,70 @@ import org.springframework.stereotype.Service;
 @Service
 public class ArrivalMovementService {
 
-    private final ArrivalMovementRepository arrivalMovementRepository;
-    private final BookRepository bookRepository;
-    private final BookCopyRepository bookCopyRepository;
+  private final ArrivalMovementRepository arrivalMovementRepository;
+  private final BookRepository bookRepository;
+  private final BookCopyRepository bookCopyRepository;
 
-    public ArrivalMovementService(
-            ArrivalMovementRepository arrivalMovementRepository,
-            BookRepository bookRepository,
-            BookCopyRepository bookCopyRepository) {
-        this.arrivalMovementRepository = arrivalMovementRepository;
-        this.bookRepository = bookRepository;
-        this.bookCopyRepository = bookCopyRepository;
+  public ArrivalMovementService(
+      ArrivalMovementRepository arrivalMovementRepository,
+      BookRepository bookRepository,
+      BookCopyRepository bookCopyRepository) {
+    this.arrivalMovementRepository = arrivalMovementRepository;
+    this.bookRepository = bookRepository;
+    this.bookCopyRepository = bookCopyRepository;
+  }
+
+  // Enregistre un arrivage et crée N BookCopy automatiquement
+  public ArrivalMovement recordArrival(String bookId, int quantity, String supplier) {
+    validateUUID(bookId);
+    Book book =
+        bookRepository
+            .findById(bookId)
+            .orElseThrow(() -> new NotFoundException("Book not found: " + bookId));
+
+    // Créer N BookCopy avec status AVAILABLE
+    List<BookCopy> bookCopies = new java.util.ArrayList<>();
+    for (int i = 0; i < quantity; i++) {
+      BookCopy copy = new BookCopy();
+      copy.setBook(book);
+      copy.setStatus(CopyStatus.AVAILABLE);
+      bookCopies.add(bookCopyRepository.save(copy));
     }
 
-    // Enregistre un arrivage et crée N BookCopy automatiquement
-    public ArrivalMovement recordArrival(String bookId, int quantity, String supplier) {
-        validateUUID(bookId);
-        Book book = bookRepository
-                .findById(bookId)
-                .orElseThrow(() -> new NotFoundException("Book not found: " + bookId));
+    return arrivalMovementRepository.save(new ArrivalMovement(book, bookCopies, supplier));
+  }
 
-        // Créer N BookCopy avec status AVAILABLE
-        List<BookCopy> bookCopies = new java.util.ArrayList<>();
-        for (int i = 0; i < quantity; i++) {
-            BookCopy copy = new BookCopy();
-            copy.setBook(book);
-            copy.setStatus(CopyStatus.AVAILABLE);
-            bookCopies.add(bookCopyRepository.save(copy));
-        }
+  public List<ArrivalMovement> getAll() {
+    return arrivalMovementRepository.findAll();
+  }
 
-        return arrivalMovementRepository.save(
-                new ArrivalMovement(book, bookCopies, supplier));
+  public ArrivalMovement getById(String id) {
+    validateUUID(id);
+    return arrivalMovementRepository
+        .findById(id)
+        .orElseThrow(() -> new NotFoundException("ArrivalMovement not found: " + id));
+  }
+
+  public List<ArrivalMovement> getByBookId(String bookId) {
+    validateUUID(bookId);
+    return arrivalMovementRepository.findByBookId(bookId);
+  }
+
+  public List<ArrivalMovement> getBySupplier(String supplier) {
+    return arrivalMovementRepository.findBySupplier(supplier);
+  }
+
+  public void delete(String id) {
+    validateUUID(id);
+    getById(id);
+    arrivalMovementRepository.deleteById(id);
+  }
+
+  private void validateUUID(String id) {
+    try {
+      UUID.fromString(id);
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException("Invalid UUID format: " + id);
     }
-
-    public List<ArrivalMovement> getAll() {
-        return arrivalMovementRepository.findAll();
-    }
-
-    public ArrivalMovement getById(String id) {
-        validateUUID(id);
-        return arrivalMovementRepository
-                .findById(id)
-                .orElseThrow(() -> new NotFoundException("ArrivalMovement not found: " + id));
-    }
-
-    public List<ArrivalMovement> getByBookId(String bookId) {
-        validateUUID(bookId);
-        return arrivalMovementRepository.findByBookId(bookId);
-    }
-
-    public List<ArrivalMovement> getBySupplier(String supplier) {
-        return arrivalMovementRepository.findBySupplier(supplier);
-    }
-
-    public void delete(String id) {
-        validateUUID(id);
-        getById(id);
-        arrivalMovementRepository.deleteById(id);
-    }
-
-    private void validateUUID(String id) {
-        try {
-            UUID.fromString(id);
-        } catch (IllegalArgumentException e) {
-            throw new BadRequestException("Invalid UUID format: " + id);
-        }
-    }
+  }
 }

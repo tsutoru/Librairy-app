@@ -16,45 +16,45 @@ import lombok.Setter;
 @Setter
 public class SaleMovement {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id")
-    private Book book;
+  @ManyToOne
+  @JoinColumn(name = "book_id")
+  private Book book;
 
-    @ManyToMany
-    @JoinTable(
-            name = "sale_movement_book_copy",
-            joinColumns = @JoinColumn(name = "sale_movement_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_copy_id"))
-    private List<BookCopy> bookCopies;
+  @ManyToMany
+  @JoinTable(
+      name = "sale_movement_book_copy",
+      joinColumns = @JoinColumn(name = "sale_movement_id"),
+      inverseJoinColumns = @JoinColumn(name = "book_copy_id"))
+  private List<BookCopy> bookCopies;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+  @ManyToOne
+  @JoinColumn(name = "customer_id")
+  private Customer customer;
 
-    private int quantity;
-    private double totalAmount;
+  private int quantity;
+  private double totalAmount;
 
-    @Enumerated(EnumType.STRING)
-    private MovementType type;
+  @Enumerated(EnumType.STRING)
+  private MovementType type;
 
-    private LocalDateTime movementDate;
+  private LocalDateTime movementDate;
 
-    public SaleMovement() {
-        this.movementDate = LocalDateTime.now();
-        this.type = MovementType.OUT;
-    }
+  public SaleMovement() {
+    this.movementDate = LocalDateTime.now();
+    this.type = MovementType.OUT;
+  }
 
-    public SaleMovement(Book book, List<BookCopy> bookCopies, Customer customer) {
-        this.book = book;
-        this.bookCopies = bookCopies;
-        this.customer = customer;
-        this.quantity = bookCopies.size();
-        this.totalAmount = bookCopies.size() * book.getPrice();
-        this.type = MovementType.OUT;
-        this.movementDate = LocalDateTime.now();
-    }
+  public SaleMovement(Book book, List<BookCopy> bookCopies, Customer customer) {
+    this.book = book;
+    this.bookCopies = bookCopies;
+    this.customer = customer;
+    this.quantity = bookCopies.size();
+    this.totalAmount = bookCopies.size() * book.getPrice();
+    this.type = MovementType.OUT;
+    this.movementDate = LocalDateTime.now();
+  }
 }

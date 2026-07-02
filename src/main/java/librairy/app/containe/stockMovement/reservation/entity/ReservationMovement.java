@@ -17,46 +17,46 @@ import lombok.Setter;
 @Setter
 public class ReservationMovement {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id")
-    private Book book;
+  @ManyToOne
+  @JoinColumn(name = "book_id")
+  private Book book;
 
-    @ManyToMany
-    @JoinTable(
-            name = "reservation_movement_book_copy",
-            joinColumns = @JoinColumn(name = "reservation_movement_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_copy_id"))
-    private List<BookCopy> bookCopies;
+  @ManyToMany
+  @JoinTable(
+      name = "reservation_movement_book_copy",
+      joinColumns = @JoinColumn(name = "reservation_movement_id"),
+      inverseJoinColumns = @JoinColumn(name = "book_copy_id"))
+  private List<BookCopy> bookCopies;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+  @ManyToOne
+  @JoinColumn(name = "customer_id")
+  private Customer customer;
 
-    private int quantity;
-    private LocalDate expirationDate;
+  private int quantity;
+  private LocalDate expirationDate;
 
-    @Enumerated(EnumType.STRING)
-    private MovementType type;
+  @Enumerated(EnumType.STRING)
+  private MovementType type;
 
-    private LocalDateTime movementDate;
+  private LocalDateTime movementDate;
 
-    public ReservationMovement() {
-        this.movementDate = LocalDateTime.now();
-        this.type = MovementType.OUT;
-    }
+  public ReservationMovement() {
+    this.movementDate = LocalDateTime.now();
+    this.type = MovementType.OUT;
+  }
 
-    public ReservationMovement(Book book, List<BookCopy> bookCopies,
-                               Customer customer, LocalDate expirationDate) {
-        this.book = book;
-        this.bookCopies = bookCopies;
-        this.customer = customer;
-        this.quantity = bookCopies.size();
-        this.expirationDate = expirationDate;
-        this.type = MovementType.OUT;
-        this.movementDate = LocalDateTime.now();
-    }
+  public ReservationMovement(
+      Book book, List<BookCopy> bookCopies, Customer customer, LocalDate expirationDate) {
+    this.book = book;
+    this.bookCopies = bookCopies;
+    this.customer = customer;
+    this.quantity = bookCopies.size();
+    this.expirationDate = expirationDate;
+    this.type = MovementType.OUT;
+    this.movementDate = LocalDateTime.now();
+  }
 }

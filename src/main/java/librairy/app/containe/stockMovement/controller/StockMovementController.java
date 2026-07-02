@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/books/{bookId}/stock")
 public class StockMovementController {
 
-    private final StockMovementService stockMovementService;
+  private final StockMovementService stockMovementService;
 
-    public StockMovementController(StockMovementService stockMovementService) {
-        this.stockMovementService = stockMovementService;
-    }
+  public StockMovementController(StockMovementService stockMovementService) {
+    this.stockMovementService = stockMovementService;
+  }
 
-    @GetMapping
-    public ResponseEntity<Integer> getStock(@PathVariable String bookId) {
-        return ResponseEntity.ok(stockMovementService.getStockByBookId(bookId));
-    }
+  @GetMapping
+  public ResponseEntity<Integer> getStock(@PathVariable String bookId) {
+    return ResponseEntity.ok(stockMovementService.getStockByBookId(bookId));
+  }
 
-    @GetMapping("/available")
-    public ResponseEntity<Boolean> isAvailable(@PathVariable String bookId) {
-        return ResponseEntity.ok(stockMovementService.isAvailable(bookId));
-    }
+  @GetMapping("/available")
+  public ResponseEntity<Boolean> isAvailable(@PathVariable String bookId) {
+    return ResponseEntity.ok(stockMovementService.isAvailable(bookId));
+  }
 }

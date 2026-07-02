@@ -13,44 +13,43 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/reservations")
 public class ReservationMovementController {
 
-    private final ReservationMovementService reservationMovementService;
+  private final ReservationMovementService reservationMovementService;
 
-    public ReservationMovementController(
-            ReservationMovementService reservationMovementService) {
-        this.reservationMovementService = reservationMovementService;
-    }
+  public ReservationMovementController(ReservationMovementService reservationMovementService) {
+    this.reservationMovementService = reservationMovementService;
+  }
 
-    @PostMapping
-    public ResponseEntity<ReservationMovement> recordReservation(
-            @RequestBody Map<String, Object> body) {
-        String bookId = (String) body.get("bookId");
-        String customerId = (String) body.get("customerId");
-        int quantity = (int) body.get("quantity");
-        LocalDate expirationDate = LocalDate.parse((String) body.get("expirationDate"));
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(reservationMovementService.recordReservation(
-                        bookId, customerId, quantity, expirationDate));
-    }
+  @PostMapping
+  public ResponseEntity<ReservationMovement> recordReservation(
+      @RequestBody Map<String, Object> body) {
+    String bookId = (String) body.get("bookId");
+    String customerId = (String) body.get("customerId");
+    int quantity = (int) body.get("quantity");
+    LocalDate expirationDate = LocalDate.parse((String) body.get("expirationDate"));
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .body(
+            reservationMovementService.recordReservation(
+                bookId, customerId, quantity, expirationDate));
+  }
 
-    @GetMapping
-    public ResponseEntity<List<ReservationMovement>> getAll() {
-        return ResponseEntity.ok(reservationMovementService.getAll());
-    }
+  @GetMapping
+  public ResponseEntity<List<ReservationMovement>> getAll() {
+    return ResponseEntity.ok(reservationMovementService.getAll());
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ReservationMovement> getById(@PathVariable String id) {
-        return ResponseEntity.ok(reservationMovementService.getById(id));
-    }
+  @GetMapping("/{id}")
+  public ResponseEntity<ReservationMovement> getById(@PathVariable String id) {
+    return ResponseEntity.ok(reservationMovementService.getById(id));
+  }
 
-    @GetMapping("/book/{bookId}")
-    public ResponseEntity<List<ReservationMovement>> getByBookId(
-            @PathVariable String bookId) {
-        return ResponseEntity.ok(reservationMovementService.getByBookId(bookId));
-    }
+  @GetMapping("/book/{bookId}")
+  public ResponseEntity<List<ReservationMovement>> getByBookId(@PathVariable String bookId) {
+    return ResponseEntity.ok(reservationMovementService.getByBookId(bookId));
+  }
 
-    @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<ReservationMovement>> getByCustomerId(
-            @PathVariable String customerId) {
-        return ResponseEntity.ok(reservationMovementService.getByCustomerId(customerId));
-    }
+  @GetMapping("/customer/{customerId}")
+  public ResponseEntity<List<ReservationMovement>> getByCustomerId(
+      @PathVariable String customerId) {
+    return ResponseEntity.ok(reservationMovementService.getByCustomerId(customerId));
+  }
 }

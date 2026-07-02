@@ -12,42 +12,41 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/reservations/cancelled")
 public class ReservationCancelledMovementController {
 
-    private final ReservationCancelledMovementService cancelledMovementService;
+  private final ReservationCancelledMovementService cancelledMovementService;
 
-    public ReservationCancelledMovementController(
-            ReservationCancelledMovementService cancelledMovementService) {
-        this.cancelledMovementService = cancelledMovementService;
-    }
+  public ReservationCancelledMovementController(
+      ReservationCancelledMovementService cancelledMovementService) {
+    this.cancelledMovementService = cancelledMovementService;
+  }
 
-    @PostMapping
-    public ResponseEntity<ReservationCancelledMovement> cancelReservation(
-            @RequestBody Map<String, String> body) {
-        String reservationId = body.get("reservationId");
-        String customerId = body.get("customerId");
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(cancelledMovementService.cancelReservation(reservationId, customerId));
-    }
+  @PostMapping
+  public ResponseEntity<ReservationCancelledMovement> cancelReservation(
+      @RequestBody Map<String, String> body) {
+    String reservationId = body.get("reservationId");
+    String customerId = body.get("customerId");
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .body(cancelledMovementService.cancelReservation(reservationId, customerId));
+  }
 
-    @GetMapping
-    public ResponseEntity<List<ReservationCancelledMovement>> getAll() {
-        return ResponseEntity.ok(cancelledMovementService.getAll());
-    }
+  @GetMapping
+  public ResponseEntity<List<ReservationCancelledMovement>> getAll() {
+    return ResponseEntity.ok(cancelledMovementService.getAll());
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ReservationCancelledMovement> getById(
-            @PathVariable String id) {
-        return ResponseEntity.ok(cancelledMovementService.getById(id));
-    }
+  @GetMapping("/{id}")
+  public ResponseEntity<ReservationCancelledMovement> getById(@PathVariable String id) {
+    return ResponseEntity.ok(cancelledMovementService.getById(id));
+  }
 
-    @GetMapping("/book/{bookId}")
-    public ResponseEntity<List<ReservationCancelledMovement>> getByBookId(
-            @PathVariable String bookId) {
-        return ResponseEntity.ok(cancelledMovementService.getByBookId(bookId));
-    }
+  @GetMapping("/book/{bookId}")
+  public ResponseEntity<List<ReservationCancelledMovement>> getByBookId(
+      @PathVariable String bookId) {
+    return ResponseEntity.ok(cancelledMovementService.getByBookId(bookId));
+  }
 
-    @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<ReservationCancelledMovement>> getByCustomerId(
-            @PathVariable String customerId) {
-        return ResponseEntity.ok(cancelledMovementService.getByCustomerId(customerId));
-    }
+  @GetMapping("/customer/{customerId}")
+  public ResponseEntity<List<ReservationCancelledMovement>> getByCustomerId(
+      @PathVariable String customerId) {
+    return ResponseEntity.ok(cancelledMovementService.getByCustomerId(customerId));
+  }
 }

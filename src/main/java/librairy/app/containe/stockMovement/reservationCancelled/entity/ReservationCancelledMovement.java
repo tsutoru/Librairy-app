@@ -17,50 +17,49 @@ import lombok.Setter;
 @Setter
 public class ReservationCancelledMovement {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id")
-    private Book book;
+  @ManyToOne
+  @JoinColumn(name = "book_id")
+  private Book book;
 
-    @ManyToMany
-    @JoinTable(
-            name = "cancelled_movement_book_copy",
-            joinColumns = @JoinColumn(name = "cancelled_movement_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_copy_id"))
-    private List<BookCopy> bookCopies;
+  @ManyToMany
+  @JoinTable(
+      name = "cancelled_movement_book_copy",
+      joinColumns = @JoinColumn(name = "cancelled_movement_id"),
+      inverseJoinColumns = @JoinColumn(name = "book_copy_id"))
+  private List<BookCopy> bookCopies;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+  @ManyToOne
+  @JoinColumn(name = "customer_id")
+  private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "original_reservation_id")
-    private ReservationMovement originalReservation;
+  @ManyToOne
+  @JoinColumn(name = "original_reservation_id")
+  private ReservationMovement originalReservation;
 
-    private int quantity;
+  private int quantity;
 
-    @Enumerated(EnumType.STRING)
-    private MovementType type;
+  @Enumerated(EnumType.STRING)
+  private MovementType type;
 
-    private LocalDateTime movementDate;
+  private LocalDateTime movementDate;
 
-    public ReservationCancelledMovement() {
-        this.movementDate = LocalDateTime.now();
-        this.type = MovementType.IN;
-    }
+  public ReservationCancelledMovement() {
+    this.movementDate = LocalDateTime.now();
+    this.type = MovementType.IN;
+  }
 
-    public ReservationCancelledMovement(Book book,
-                                        ReservationMovement originalReservation,
-                                        Customer customer) {
-        this.book = book;
-        this.originalReservation = originalReservation;
-        this.bookCopies = originalReservation.getBookCopies();
-        this.customer = customer;
-        this.quantity = originalReservation.getQuantity();
-        this.type = MovementType.IN;
-        this.movementDate = LocalDateTime.now();
-    }
+  public ReservationCancelledMovement(
+      Book book, ReservationMovement originalReservation, Customer customer) {
+    this.book = book;
+    this.originalReservation = originalReservation;
+    this.bookCopies = originalReservation.getBookCopies();
+    this.customer = customer;
+    this.quantity = originalReservation.getQuantity();
+    this.type = MovementType.IN;
+    this.movementDate = LocalDateTime.now();
+  }
 }
