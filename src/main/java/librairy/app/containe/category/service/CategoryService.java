@@ -28,7 +28,7 @@ public class CategoryService {
   public Category getById(String id) {
     return categoryRepository
         .findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("Category" + id));
+        .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + id)); // ✅
   }
 
   public Category update(String id, Category updated) {
@@ -46,7 +46,7 @@ public class CategoryService {
 
   public void delete(String id) {
     if (!categoryRepository.existsById(id)) {
-      throw new ResourceNotFoundException("Category" + id);
+      throw new ResourceNotFoundException("Category not found with id: " + id);
     }
     categoryRepository.deleteById(id);
   }

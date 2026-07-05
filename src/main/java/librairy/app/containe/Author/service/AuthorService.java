@@ -59,7 +59,7 @@ public class AuthorService {
 
   public void delete(String id) {
     if (!authorRepository.existsById(id)) {
-      throw new ResourceNotFoundException("Author" + id);
+      throw new ResourceNotFoundException("Author not found with id: " + id);
     }
     authorRepository.deleteById(id);
   }
