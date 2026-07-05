@@ -6,19 +6,12 @@ import librairy.app.containe.bookCopy.entity.BookCopy;
 import librairy.app.containe.bookCopy.service.BookCopyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/book-copies")
 public class BookCopyController {
+
   private final BookCopyService service;
 
   public BookCopyController(BookCopyService service) {
@@ -42,18 +35,18 @@ public class BookCopyController {
 
   @GetMapping("/available")
   public ResponseEntity<List<BookCopy>> getAvailable(
-      @RequestParam(required = false) String bookId) {
+          @RequestParam(required = false) String bookId) {
     return ResponseEntity.ok(service.getAvailable(bookId));
   }
 
-  @GetMapping("/{bookId}/copies/stock")
-  public ResponseEntity<Integer> getStockByBookId(@PathVariable String bookId) {
-    return ResponseEntity.ok(service.getStockByBookId(bookId));
+  @GetMapping("/{id}/stock")
+  public ResponseEntity<Integer> getStockByCopyId(@PathVariable String id) {
+    return ResponseEntity.ok(service.getStockByCopyId(id));
   }
 
   @PutMapping("/{id}/status")
   public ResponseEntity<BookCopy> updateStatus(
-      @PathVariable String id, @RequestBody Map<String, String> body) {
+          @PathVariable String id, @RequestBody Map<String, String> body) {
     return ResponseEntity.ok(service.updateStatus(id, body.get("status")));
   }
 
