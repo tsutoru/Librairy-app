@@ -118,8 +118,7 @@ class BookCopyServiceTest {
 
   @Test
   void getStockByCopyId_shouldReturn1_whenAvailable() {
-    when(bookCopyRepository.findById(validCopyId))
-            .thenReturn(Optional.of(copy));
+    when(bookCopyRepository.findById(validCopyId)).thenReturn(Optional.of(copy));
 
     int result = bookCopyService.getStockByCopyId(validCopyId);
 
@@ -130,8 +129,7 @@ class BookCopyServiceTest {
   @Test
   void getStockByCopyId_shouldReturn0_whenNotAvailable() {
     copy.setStatus(CopyStatus.SOLD);
-    when(bookCopyRepository.findById(validCopyId))
-            .thenReturn(Optional.of(copy));
+    when(bookCopyRepository.findById(validCopyId)).thenReturn(Optional.of(copy));
 
     int result = bookCopyService.getStockByCopyId(validCopyId);
 
@@ -140,8 +138,7 @@ class BookCopyServiceTest {
 
   @Test
   void getStockByCopyId_shouldThrowBadRequestException_whenInvalidUUID() {
-    assertThrows(BadRequestException.class,
-            () -> bookCopyService.getStockByCopyId("invalid-uuid"));
+    assertThrows(BadRequestException.class, () -> bookCopyService.getStockByCopyId("invalid-uuid"));
     verify(bookCopyRepository, never()).findById(any());
   }
 

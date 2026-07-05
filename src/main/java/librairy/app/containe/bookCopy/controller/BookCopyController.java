@@ -35,7 +35,7 @@ public class BookCopyController {
 
   @GetMapping("/available")
   public ResponseEntity<List<BookCopy>> getAvailable(
-          @RequestParam(required = false) String bookId) {
+      @RequestParam(required = false) String bookId) {
     return ResponseEntity.ok(service.getAvailable(bookId));
   }
 
@@ -46,7 +46,7 @@ public class BookCopyController {
 
   @PutMapping("/{id}/status")
   public ResponseEntity<BookCopy> updateStatus(
-          @PathVariable String id, @RequestBody Map<String, String> body) {
+      @PathVariable String id, @RequestBody Map<String, String> body) {
     return ResponseEntity.ok(service.updateStatus(id, body.get("status")));
   }
 

@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/stats")
 public class StatsController {
 
-    private final StatsService statsService;
+  private final StatsService statsService;
 
-    public StatsController(StatsService statsService) {
-        this.statsService = statsService;
-    }
+  public StatsController(StatsService statsService) {
+    this.statsService = statsService;
+  }
 
-    @GetMapping("/revenue/by-genre")
-    public ResponseEntity<Map<String, Double>> getRevenueByGenre() {
-        return ResponseEntity.ok(statsService.getRevenueByGenre());
-    }
+  @GetMapping("/revenue/by-genre")
+  public ResponseEntity<Map<String, Double>> getRevenueByGenre() {
+    return ResponseEntity.ok(statsService.getRevenueByGenre());
+  }
 
-    @GetMapping("/revenue/by-genre/detailed")
-    public ResponseEntity<Map<String, Object>> getRevenueByGenreDetailed() {
-        return ResponseEntity.ok(statsService.getRevenueByGenreDetailed());
-    }
+  @GetMapping("/revenue/by-genre/detailed")
+  public ResponseEntity<Map<String, Object>> getRevenueByGenreDetailed() {
+    return ResponseEntity.ok(statsService.getRevenueByGenreDetailed());
+  }
 }

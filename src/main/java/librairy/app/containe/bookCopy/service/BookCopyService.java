@@ -34,9 +34,8 @@ public class BookCopyService {
   public BookCopy getById(String id) {
     validateUUID(id);
     return bookCopyRepository
-            .findById(id)
-            .orElseThrow(
-                    () -> new NotFoundException("BookCopy with id " + id + " not found"));
+        .findById(id)
+        .orElseThrow(() -> new NotFoundException("BookCopy with id " + id + " not found"));
   }
 
   public List<BookCopy> getAvailable(String bookId) {
@@ -75,8 +74,7 @@ public class BookCopyService {
       UUID.fromString(id);
     } catch (IllegalArgumentException e) {
       throw new BadRequestException(
-              "Invalid UUID format: " + id
-                      + ". UUID must be a valid 36-character string.");
+          "Invalid UUID format: " + id + ". UUID must be a valid 36-character string.");
     }
   }
 }

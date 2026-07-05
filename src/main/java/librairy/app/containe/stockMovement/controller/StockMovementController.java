@@ -1,11 +1,10 @@
 package librairy.app.containe.stockMovement.controller;
 
+import java.util.List;
+import java.util.Map;
 import librairy.app.containe.stockMovement.service.StockMovementService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 
 @RestController
 public class StockMovementController {
@@ -28,7 +27,7 @@ public class StockMovementController {
 
   @GetMapping("/books/low-stock")
   public ResponseEntity<List<Map<String, Object>>> getLowStockBooks(
-          @RequestParam(defaultValue = "3") int threshold) {
+      @RequestParam(defaultValue = "3") int threshold) {
     return ResponseEntity.ok(stockMovementService.getLowStockBooks(threshold));
   }
 }

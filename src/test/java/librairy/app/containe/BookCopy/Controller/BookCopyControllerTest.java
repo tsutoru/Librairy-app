@@ -106,36 +106,32 @@ class BookCopyControllerTest {
 
   @Test
   void getStockByCopyId_shouldReturn200_withStockCount() throws Exception {
-    when(bookCopyService.getStockByCopyId(
-            "copy-550e8400-e29b-41d4-a716-446655440000"))
-            .thenReturn(1);
+    when(bookCopyService.getStockByCopyId("copy-550e8400-e29b-41d4-a716-446655440000"))
+        .thenReturn(1);
 
     mockMvc
-            .perform(get("/book-copies/copy-550e8400-e29b-41d4-a716-446655440000/stock"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$").value(1));
+        .perform(get("/book-copies/copy-550e8400-e29b-41d4-a716-446655440000/stock"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").value(1));
   }
 
   @Test
   void getStockByCopyId_shouldReturn0_whenNotAvailable() throws Exception {
-    when(bookCopyService.getStockByCopyId(
-            "copy-550e8400-e29b-41d4-a716-446655440000"))
-            .thenReturn(0);
+    when(bookCopyService.getStockByCopyId("copy-550e8400-e29b-41d4-a716-446655440000"))
+        .thenReturn(0);
 
     mockMvc
-            .perform(get("/book-copies/copy-550e8400-e29b-41d4-a716-446655440000/stock"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$").value(0));
+        .perform(get("/book-copies/copy-550e8400-e29b-41d4-a716-446655440000/stock"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").value(0));
   }
 
   @Test
   void getStockByCopyId_shouldReturn400_whenInvalidUUID() throws Exception {
     when(bookCopyService.getStockByCopyId("invalid-uuid"))
-            .thenThrow(new BadRequestException("Invalid UUID format"));
+        .thenThrow(new BadRequestException("Invalid UUID format"));
 
-    mockMvc
-            .perform(get("/book-copies/invalid-uuid/stock"))
-            .andExpect(status().isBadRequest());
+    mockMvc.perform(get("/book-copies/invalid-uuid/stock")).andExpect(status().isBadRequest());
   }
 
   @Test
