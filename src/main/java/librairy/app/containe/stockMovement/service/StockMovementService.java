@@ -1,5 +1,7 @@
 package librairy.app.containe.stockMovement.service;
 
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import librairy.app.containe.book.repository.BookRepository;
 import librairy.app.containe.exception.BadRequestException;
@@ -38,14 +40,14 @@ public class StockMovementService {
         .findById(bookId)
         .orElseThrow(() -> new NotFoundException("Book not found: " + bookId));
 
-    // IN = arrivages + annulations de réservation
+
     int totalIn =
         arrivalMovementRepository.findByBookId(bookId).stream().mapToInt(m -> m.getQuantity()).sum()
             + cancelledMovementRepository.findByBookId(bookId).stream()
                 .mapToInt(m -> m.getQuantity())
                 .sum();
 
-    // OUT = ventes + réservations
+
     int totalOut =
         saleMovementRepository.findByBookId(bookId).stream().mapToInt(m -> m.getQuantity()).sum()
             + reservationMovementRepository.findByBookId(bookId).stream()
@@ -53,6 +55,19 @@ public class StockMovementService {
                 .sum();
 
     return totalIn - totalOut;
+  }
+
+  public List<Map<String, Object>> getLowStockBooks(int threshold) {
+    return bookRepository.findAll().stream()
+            .map(book -> {
+              int stock = getStockByBookId(book.getId());
+              Map<String, Object> result = new java.util.HashMap<>();
+              result.put("book", book);
+              result.put("stock", stock);
+              return result;
+            })
+            .filter(map -> (int) map.get("stock") <= threshold)
+            .toList();
   }
 
   public boolean isAvailable(String bookId) {

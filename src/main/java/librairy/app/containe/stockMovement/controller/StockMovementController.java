@@ -4,8 +4,10 @@ import librairy.app.containe.stockMovement.service.StockMovementService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
-@RequestMapping("/books/{bookId}/stock")
 public class StockMovementController {
 
   private final StockMovementService stockMovementService;
@@ -14,13 +16,19 @@ public class StockMovementController {
     this.stockMovementService = stockMovementService;
   }
 
-  @GetMapping
+  @GetMapping("/books/{bookId}/stock")
   public ResponseEntity<Integer> getStock(@PathVariable String bookId) {
     return ResponseEntity.ok(stockMovementService.getStockByBookId(bookId));
   }
 
-  @GetMapping("/available")
+  @GetMapping("/books/{bookId}/stock/available")
   public ResponseEntity<Boolean> isAvailable(@PathVariable String bookId) {
     return ResponseEntity.ok(stockMovementService.isAvailable(bookId));
+  }
+
+  @GetMapping("/books/low-stock")
+  public ResponseEntity<List<Map<String, Object>>> getLowStockBooks(
+          @RequestParam(defaultValue = "3") int threshold) {
+    return ResponseEntity.ok(stockMovementService.getLowStockBooks(threshold));
   }
 }
