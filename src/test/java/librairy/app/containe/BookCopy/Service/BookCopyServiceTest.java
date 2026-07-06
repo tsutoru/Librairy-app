@@ -117,20 +117,29 @@ class BookCopyServiceTest {
   }
 
   @Test
-  void getStockByBookId_shouldReturnCount() {
-    when(bookCopyRepository.countByBookIdAndStatus(validBookId, CopyStatus.AVAILABLE))
-        .thenReturn(5);
+  void getStockByCopyId_shouldReturn1_whenAvailable() {
+    when(bookCopyRepository.findById(validCopyId)).thenReturn(Optional.of(copy));
 
-    int result = bookCopyService.getStockByBookId(validBookId);
+    int result = bookCopyService.getStockByCopyId(validCopyId);
 
-    assertEquals(5, result);
-    verify(bookCopyRepository, times(1)).countByBookIdAndStatus(validBookId, CopyStatus.AVAILABLE);
+    assertEquals(1, result);
+    verify(bookCopyRepository, times(1)).findById(validCopyId);
   }
 
   @Test
-  void getStockByBookId_shouldThrowBadRequestException_whenInvalidUUID() {
-    assertThrows(BadRequestException.class, () -> bookCopyService.getStockByBookId("invalid-uuid"));
-    verify(bookCopyRepository, never()).countByBookIdAndStatus(any(), any());
+  void getStockByCopyId_shouldReturn0_whenNotAvailable() {
+    copy.setStatus(CopyStatus.SOLD);
+    when(bookCopyRepository.findById(validCopyId)).thenReturn(Optional.of(copy));
+
+    int result = bookCopyService.getStockByCopyId(validCopyId);
+
+    assertEquals(0, result);
+  }
+
+  @Test
+  void getStockByCopyId_shouldThrowBadRequestException_whenInvalidUUID() {
+    assertThrows(BadRequestException.class, () -> bookCopyService.getStockByCopyId("invalid-uuid"));
+    verify(bookCopyRepository, never()).findById(any());
   }
 
   @Test

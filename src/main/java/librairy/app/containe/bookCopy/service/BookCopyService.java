@@ -46,9 +46,10 @@ public class BookCopyService {
     return bookCopyRepository.findByStatus(CopyStatus.AVAILABLE);
   }
 
-  public int getStockByBookId(String bookId) {
-    validateUUID(bookId);
-    return bookCopyRepository.countByBookIdAndStatus(bookId, CopyStatus.AVAILABLE);
+  public int getStockByCopyId(String copyId) {
+    validateUUID(copyId);
+    BookCopy copy = getById(copyId);
+    return copy.getStatus() == CopyStatus.AVAILABLE ? 1 : 0;
   }
 
   public BookCopy updateStatus(String id, String status) {

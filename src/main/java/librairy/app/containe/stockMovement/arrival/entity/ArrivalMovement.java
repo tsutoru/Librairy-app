@@ -32,7 +32,10 @@ public class ArrivalMovement {
 
   private String supplier;
   private int quantity;
+
+  @Enumerated(EnumType.STRING)
   private MovementType type = MovementType.IN;
+
   private LocalDateTime movementDate;
 
   public ArrivalMovement() {
