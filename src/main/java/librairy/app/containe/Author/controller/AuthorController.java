@@ -3,48 +3,50 @@ package librairy.app.containe.Author.controller;
 import java.util.List;
 import librairy.app.containe.Author.entity.Author;
 import librairy.app.containe.Author.service.AuthorService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/authors")
+@RequiredArgsConstructor
 public class AuthorController {
 
   private final AuthorService authorService;
 
-  public AuthorController(AuthorService authorService) {
-    this.authorService = authorService;
-  }
-
   @PostMapping
-  public ResponseEntity<Author> create(@RequestBody Author author) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(authorService.create(author));
+  @ResponseStatus(HttpStatus.CREATED)
+  public Author create(@RequestBody Author author) {
+    return authorService.create(author);
   }
 
   @GetMapping
-  public ResponseEntity<List<Author>> getAll() {
-    return ResponseEntity.ok(authorService.getAll());
+  @ResponseStatus(HttpStatus.OK)
+  public List<Author> getAll() {
+    return authorService.getAll();
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Author> getById(@PathVariable String id) {
-    return ResponseEntity.ok(authorService.getById(id));
+  @ResponseStatus(HttpStatus.OK)
+  public Author getById(@PathVariable String id) {
+    return authorService.getById(id);
   }
 
   @GetMapping("/search")
-  public ResponseEntity<List<Author>> getByLastName(@RequestParam String lastName) {
-    return ResponseEntity.ok(authorService.getByLastName(lastName));
+  @ResponseStatus(HttpStatus.OK)
+  public List<Author> getByLastName(@RequestParam String lastName) {
+    return authorService.getByLastName(lastName);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Author> update(@PathVariable String id, @RequestBody Author author) {
-    return ResponseEntity.ok(authorService.update(id, author));
+  @ResponseStatus(HttpStatus.OK)
+  public Author update(@PathVariable String id, @RequestBody Author author) {
+    return authorService.update(id, author);
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable String id) {
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void delete(@PathVariable String id) {
     authorService.delete(id);
-    return ResponseEntity.noContent().build();
   }
 }
