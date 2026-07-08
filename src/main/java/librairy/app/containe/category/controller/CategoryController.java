@@ -27,13 +27,11 @@ public class CategoryController {
   }
 
   @GetMapping("/{id}")
-  @ResponseStatus(HttpStatus.OK)
   public Category getById(@PathVariable String id) {
     return categoryService.getById(id);
   }
 
   @PutMapping("/{id}")
-  @ResponseStatus(HttpStatus.OK)
   public Category update(@PathVariable String id, @RequestBody Category category) {
     return categoryService.update(id, category);
   }

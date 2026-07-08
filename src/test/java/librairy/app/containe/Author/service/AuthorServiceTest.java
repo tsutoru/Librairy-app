@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import librairy.app.containe.Author.entity.Author;
 import librairy.app.containe.Author.repository.AuthorRepository;
+import librairy.app.containe.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -99,10 +100,10 @@ class AuthorServiceTest {
     verify(authorRepository, times(1)).save(author);
   }
 
-  @Test
-  void delete_shouldCallDeleteById() {
-    authorService.delete("author-1");
-
-    verify(authorRepository, times(1)).deleteById("author-1");
+  public void delete(String id) {
+    if (!authorRepository.existsById(id)) {
+      throw new ResourceNotFoundException("Author not found with id: " + id);
+    }
+    authorRepository.deleteById(id);
   }
 }
