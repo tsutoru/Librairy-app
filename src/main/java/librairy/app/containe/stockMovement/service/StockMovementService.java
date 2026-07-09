@@ -17,9 +17,7 @@ public class StockMovementService {
   private final BookCopyRepository bookCopyRepository;
 
   public StockMovementService(
-          BookRepository bookRepository,
-          BookCopyRepository bookCopyRepository
-  ) {
+      BookRepository bookRepository, BookCopyRepository bookCopyRepository) {
     this.bookRepository = bookRepository;
     this.bookCopyRepository = bookCopyRepository;
   }
@@ -29,19 +27,11 @@ public class StockMovementService {
     validateUUID(bookId);
 
     bookRepository
-            .findById(bookId)
-            .orElseThrow(() ->
-                    new NotFoundException("Book not found: " + bookId)
-            );
+        .findById(bookId)
+        .orElseThrow(() -> new NotFoundException("Book not found: " + bookId));
 
-
-    return (int) bookCopyRepository
-            .countByBookIdAndStatus(
-                    bookId,
-                    CopyStatus.AVAILABLE
-            );
+    return (int) bookCopyRepository.countByBookIdAndStatus(bookId, CopyStatus.AVAILABLE);
   }
-
 
   public List<Map<String, Object>> getLowStockBooks(int threshold) {
     return bookRepository.findAll().stream()

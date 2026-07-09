@@ -30,19 +30,13 @@ public class ArrivalMovementService {
     this.bookCopyRepository = bookCopyRepository;
   }
 
-
   public ArrivalMovement recordArrival(
-          String bookId,
-          int quantity,
-          String supplier,
-          String format,
-          double price) {
+      String bookId, int quantity, String supplier, String format, double price) {
     validateUUID(bookId);
     Book book =
         bookRepository
             .findById(bookId)
             .orElseThrow(() -> new NotFoundException("Book not found: " + bookId));
-
 
     List<BookCopy> bookCopies = new java.util.ArrayList<>();
     for (int i = 0; i < quantity; i++) {

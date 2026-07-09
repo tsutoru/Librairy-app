@@ -43,15 +43,10 @@ public class BookCopyService {
     if (bookId != null) {
       validateUUID(bookId);
 
-      return bookCopyRepository.findByBookIdAndStatus(
-              bookId,
-              CopyStatus.AVAILABLE
-      );
+      return bookCopyRepository.findByBookIdAndStatus(bookId, CopyStatus.AVAILABLE);
     }
 
-    return bookCopyRepository.findByStatus(
-            CopyStatus.AVAILABLE
-    );
+    return bookCopyRepository.findByStatus(CopyStatus.AVAILABLE);
   }
 
   public int getStockByCopyId(String copyId) {
@@ -86,15 +81,9 @@ public class BookCopyService {
     }
   }
 
-  public List<BookCopy> getByBookAndStatus(
-          String bookId,
-          CopyStatus status
-  ) {
+  public List<BookCopy> getByBookAndStatus(String bookId, CopyStatus status) {
     validateUUID(bookId);
 
-    return bookCopyRepository.findByBookIdAndStatus(
-            bookId,
-            status
-    );
+    return bookCopyRepository.findByBookIdAndStatus(bookId, status);
   }
 }

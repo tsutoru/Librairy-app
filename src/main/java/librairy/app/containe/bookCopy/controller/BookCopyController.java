@@ -59,11 +59,7 @@ public class BookCopyController {
 
   @GetMapping("/book/{bookId}/status/{status}")
   public ResponseEntity<List<BookCopy>> getByStatus(
-          @PathVariable String bookId,
-          @PathVariable CopyStatus status
-  ){
-    return ResponseEntity.ok(
-            service.getByBookAndStatus(bookId,status)
-    );
+      @PathVariable String bookId, @PathVariable CopyStatus status) {
+    return ResponseEntity.ok(service.getByBookAndStatus(bookId, status));
   }
 }

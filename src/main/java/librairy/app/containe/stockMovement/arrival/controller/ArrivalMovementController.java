@@ -27,15 +27,7 @@ public class ArrivalMovementController {
     double price = ((Number) body.get("price")).doubleValue();
 
     return ResponseEntity.status(HttpStatus.CREATED)
-            .body(
-                    arrivalMovementService.recordArrival(
-                            bookId,
-                            quantity,
-                            supplier,
-                            format,
-                            price
-                    )
-            );
+        .body(arrivalMovementService.recordArrival(bookId, quantity, supplier, format, price));
   }
 
   @GetMapping
