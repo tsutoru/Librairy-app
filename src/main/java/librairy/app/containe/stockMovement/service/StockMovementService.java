@@ -4,56 +4,44 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import librairy.app.containe.book.repository.BookRepository;
+import librairy.app.containe.bookCopy.entity.CopyStatus;
+import librairy.app.containe.bookCopy.repository.BookCopyRepository;
 import librairy.app.containe.exception.BadRequestException;
 import librairy.app.containe.exception.NotFoundException;
-import librairy.app.containe.stockMovement.arrival.repository.ArrivalMovementRepository;
-import librairy.app.containe.stockMovement.reservation.repository.ReservationMovementRepository;
-import librairy.app.containe.stockMovement.reservationCancelled.repository.ReservationCancelledMovementRepository;
-import librairy.app.containe.stockMovement.sale.repository.SaleMovementRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StockMovementService {
 
-  private final ArrivalMovementRepository arrivalMovementRepository;
-  private final SaleMovementRepository saleMovementRepository;
-  private final ReservationMovementRepository reservationMovementRepository;
-  private final ReservationCancelledMovementRepository cancelledMovementRepository;
   private final BookRepository bookRepository;
+  private final BookCopyRepository bookCopyRepository;
 
   public StockMovementService(
-      ArrivalMovementRepository arrivalMovementRepository,
-      SaleMovementRepository saleMovementRepository,
-      ReservationMovementRepository reservationMovementRepository,
-      ReservationCancelledMovementRepository cancelledMovementRepository,
-      BookRepository bookRepository) {
-    this.arrivalMovementRepository = arrivalMovementRepository;
-    this.saleMovementRepository = saleMovementRepository;
-    this.reservationMovementRepository = reservationMovementRepository;
-    this.cancelledMovementRepository = cancelledMovementRepository;
+          BookRepository bookRepository,
+          BookCopyRepository bookCopyRepository
+  ) {
     this.bookRepository = bookRepository;
+    this.bookCopyRepository = bookCopyRepository;
   }
 
   public int getStockByBookId(String bookId) {
+
     validateUUID(bookId);
+
     bookRepository
-        .findById(bookId)
-        .orElseThrow(() -> new NotFoundException("Book not found: " + bookId));
+            .findById(bookId)
+            .orElseThrow(() ->
+                    new NotFoundException("Book not found: " + bookId)
+            );
 
-    int totalIn =
-        arrivalMovementRepository.findByBookId(bookId).stream().mapToInt(m -> m.getQuantity()).sum()
-            + cancelledMovementRepository.findByBookId(bookId).stream()
-                .mapToInt(m -> m.getQuantity())
-                .sum();
 
-    int totalOut =
-        saleMovementRepository.findByBookId(bookId).stream().mapToInt(m -> m.getQuantity()).sum()
-            + reservationMovementRepository.findByBookId(bookId).stream()
-                .mapToInt(m -> m.getQuantity())
-                .sum();
-
-    return totalIn - totalOut;
+    return (int) bookCopyRepository
+            .countByBookIdAndStatus(
+                    bookId,
+                    CopyStatus.AVAILABLE
+            );
   }
+
 
   public List<Map<String, Object>> getLowStockBooks(int threshold) {
     return bookRepository.findAll().stream()

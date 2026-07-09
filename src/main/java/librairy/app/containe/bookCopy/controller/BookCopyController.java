@@ -3,6 +3,7 @@ package librairy.app.containe.bookCopy.controller;
 import java.util.List;
 import java.util.Map;
 import librairy.app.containe.bookCopy.entity.BookCopy;
+import librairy.app.containe.bookCopy.entity.CopyStatus;
 import librairy.app.containe.bookCopy.service.BookCopyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,5 +55,15 @@ public class BookCopyController {
   public ResponseEntity<Void> delete(@PathVariable String id) {
     service.delete(id);
     return ResponseEntity.noContent().build();
+  }
+
+  @GetMapping("/book/{bookId}/status/{status}")
+  public ResponseEntity<List<BookCopy>> getByStatus(
+          @PathVariable String bookId,
+          @PathVariable CopyStatus status
+  ){
+    return ResponseEntity.ok(
+            service.getByBookAndStatus(bookId,status)
+    );
   }
 }

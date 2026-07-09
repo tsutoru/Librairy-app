@@ -5,6 +5,7 @@ import java.util.UUID;
 import librairy.app.containe.book.entity.Book;
 import librairy.app.containe.book.repository.BookRepository;
 import librairy.app.containe.bookCopy.entity.BookCopy;
+import librairy.app.containe.bookCopy.entity.BookFormat;
 import librairy.app.containe.bookCopy.entity.CopyStatus;
 import librairy.app.containe.bookCopy.repository.BookCopyRepository;
 import librairy.app.containe.exception.BadRequestException;
@@ -29,20 +30,28 @@ public class ArrivalMovementService {
     this.bookCopyRepository = bookCopyRepository;
   }
 
-  // Enregistre un arrivage et crée N BookCopy automatiquement
-  public ArrivalMovement recordArrival(String bookId, int quantity, String supplier) {
+
+  public ArrivalMovement recordArrival(
+          String bookId,
+          int quantity,
+          String supplier,
+          String format,
+          double price) {
     validateUUID(bookId);
     Book book =
         bookRepository
             .findById(bookId)
             .orElseThrow(() -> new NotFoundException("Book not found: " + bookId));
 
-    // Créer N BookCopy avec status AVAILABLE
+
     List<BookCopy> bookCopies = new java.util.ArrayList<>();
     for (int i = 0; i < quantity; i++) {
       BookCopy copy = new BookCopy();
+
       copy.setBook(book);
       copy.setStatus(CopyStatus.AVAILABLE);
+      copy.setFormat(BookFormat.valueOf(format));
+      copy.setPrice(price);
       bookCopies.add(bookCopyRepository.save(copy));
     }
 
