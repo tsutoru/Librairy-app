@@ -55,7 +55,6 @@ public class BookService {
     try {
       book.setTitle(newBook.getTitle());
       book.setDescription(newBook.getDescription());
-      book.setPrice(newBook.getPrice());
       book.setPublicationDate(newBook.getPublicationDate());
       book.setIsbn(newBook.getIsbn());
       book.setCategory(newBook.getCategory());

@@ -53,7 +53,7 @@ public class SaleMovement {
     this.bookCopies = bookCopies;
     this.customer = customer;
     this.quantity = bookCopies.size();
-    this.totalAmount = bookCopies.size() * book.getPrice();
+    this.totalAmount = bookCopies.stream().mapToDouble(BookCopy::getPrice).sum();
     this.type = MovementType.OUT;
     this.movementDate = LocalDateTime.now();
   }
