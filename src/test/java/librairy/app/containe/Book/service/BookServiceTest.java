@@ -36,7 +36,7 @@ class BookServiceTest {
     book.setId(validId);
     book.setTitle("Clean Code");
     book.setDescription("A book about writing clean code");
-    book.setPrice(29.99);
+
     book.setIsbn("978-0132350884");
   }
 
@@ -56,7 +56,6 @@ class BookServiceTest {
     Book newBook = new Book();
     newBook.setTitle("New Book");
     newBook.setDescription("Description");
-    newBook.setPrice(19.99);
 
     when(bookRepository.save(any(Book.class)))
         .thenAnswer(
@@ -147,13 +146,11 @@ class BookServiceTest {
     updatedBook.setId(validId);
     updatedBook.setTitle("Clean Code - 2nd Edition");
     updatedBook.setDescription("Updated description");
-    updatedBook.setPrice(34.99);
     updatedBook.setIsbn("978-0132350884");
 
     Book updatedData = new Book();
     updatedData.setTitle("Clean Code - 2nd Edition");
     updatedData.setDescription("Updated description");
-    updatedData.setPrice(34.99);
     updatedData.setIsbn("978-0132350884");
 
     when(bookRepository.findById(validId)).thenReturn(Optional.of(book));
@@ -163,7 +160,6 @@ class BookServiceTest {
 
     assertNotNull(result);
     assertEquals("Clean Code - 2nd Edition", result.getTitle());
-    assertEquals(34.99, result.getPrice());
     verify(bookRepository, times(1)).findById(validId);
     verify(bookRepository, times(1)).save(any(Book.class));
   }

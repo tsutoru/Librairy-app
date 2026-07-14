@@ -23,8 +23,11 @@ public class ArrivalMovementController {
     String bookId = (String) body.get("bookId");
     int quantity = (int) body.get("quantity");
     String supplier = (String) body.get("supplier");
+    String format = (String) body.get("format");
+    double price = ((Number) body.get("price")).doubleValue();
+
     return ResponseEntity.status(HttpStatus.CREATED)
-        .body(arrivalMovementService.recordArrival(bookId, quantity, supplier));
+        .body(arrivalMovementService.recordArrival(bookId, quantity, supplier, format, price));
   }
 
   @GetMapping

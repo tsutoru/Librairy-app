@@ -1,13 +1,17 @@
 package librairy.app.containe.Author.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "author")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Author {
 
   @Id
@@ -18,15 +22,4 @@ public class Author {
   private String lastName;
   private String biography;
   private String nationality;
-
-  public Author() {}
-
-  public Author(
-      String id, String firstName, String lastName, String biography, String nationality) {
-    this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.biography = biography;
-    this.nationality = nationality;
-  }
 }

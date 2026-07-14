@@ -27,9 +27,6 @@ public class BookCopy {
   @Enumerated(EnumType.STRING)
   private BookFormat format;
 
-  @Column(columnDefinition = "integer default 0")
-  private int stock;
-
   @Column(columnDefinition = "double precision default 0.0")
   private double price;
 
