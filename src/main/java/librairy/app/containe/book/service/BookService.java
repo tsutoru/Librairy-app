@@ -28,21 +28,11 @@ public class BookService {
   }
 
   public Book create(Book book) {
-    try {
-      return bookRepository.save(book);
-    } catch (DataIntegrityViolationException e) {
-      throw new BadRequestException("Book data is invalid: " + e.getMessage());
-    }
+    return save(book);
   }
 
   public Book getBookById(String id) {
-    try {
-      UUID.fromString(id);
-    } catch (IllegalArgumentException e) {
-      throw new BadRequestException(
-          "Invalid UUID format: " + id + ". UUID must be a valid 36-character string.");
-    }
-
+    validateUuid(id);
     return bookRepository
         .findById(id)
         .orElseThrow(() -> new NotFoundException("Book with id " + id + " not found"));
@@ -54,7 +44,6 @@ public class BookService {
 
     book.setTitle(newBook.getTitle());
     book.setDescription(newBook.getDescription());
-    book.setPrice(newBook.getPrice());
     book.setPublicationDate(newBook.getPublicationDate());
     book.setIsbn(newBook.getIsbn());
     book.setCategory(newBook.getCategory());
@@ -92,7 +81,6 @@ public class BookService {
     return Book.builder()
         .title(externalBook.getTitle())
         .description(externalBook.getDescription())
-        .price(externalBook.getPrice() != null ? externalBook.getPrice() : 0.0)
         .isbn(externalBook.getIsbn())
         .build();
   }

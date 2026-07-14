@@ -1,7 +1,6 @@
 package librairy.app.containe.book.controller;
 
 import java.util.List;
-import java.util.Optional;
 import librairy.app.containe.book.dto.BookExternalDTO;
 import librairy.app.containe.book.entity.Book;
 import librairy.app.containe.book.service.BookService;
@@ -47,7 +46,6 @@ public class ExternalBookController {
     return Book.builder()
         .title(externalBook.getTitle())
         .description(externalBook.getDescription())
-        .price(Optional.ofNullable(externalBook.getPrice()).orElse(0.0))
         .isbn(externalBook.getIsbn())
         .build();
   }
