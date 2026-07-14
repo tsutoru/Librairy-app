@@ -39,10 +39,13 @@ public class BookCopyService {
   }
 
   public List<BookCopy> getAvailable(String bookId) {
+
     if (bookId != null) {
       validateUUID(bookId);
+
       return bookCopyRepository.findByBookIdAndStatus(bookId, CopyStatus.AVAILABLE);
     }
+
     return bookCopyRepository.findByStatus(CopyStatus.AVAILABLE);
   }
 
@@ -76,5 +79,11 @@ public class BookCopyService {
       throw new BadRequestException(
           "Invalid UUID format: " + id + ". UUID must be a valid 36-character string.");
     }
+  }
+
+  public List<BookCopy> getByBookAndStatus(String bookId, CopyStatus status) {
+    validateUUID(bookId);
+
+    return bookCopyRepository.findByBookIdAndStatus(bookId, status);
   }
 }
