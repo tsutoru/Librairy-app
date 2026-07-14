@@ -63,4 +63,15 @@ public class BookController {
     bookService.delete(id);
     return ResponseEntity.noContent().build();
   }
+
+  @PostMapping("/import-isbn/{isbn}")
+  public ResponseEntity<Book> importBookByIsbn(@PathVariable String isbn) {
+    Book createdBook = bookService.createBookFromIsbn(isbn);
+    URI location =
+        ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(createdBook.getId())
+            .toUri();
+    return ResponseEntity.created(location).body(createdBook);
+  }
 }
