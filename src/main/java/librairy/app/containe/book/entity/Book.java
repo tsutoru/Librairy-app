@@ -23,7 +23,6 @@ public class Book {
 
   private String title;
   private String description;
-  private Double price;
   private LocalDate publicationDate;
   private String isbn;
 

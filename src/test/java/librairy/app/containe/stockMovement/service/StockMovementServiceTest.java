@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import librairy.app.containe.book.entity.Book;
 import librairy.app.containe.book.repository.BookRepository;
+import librairy.app.containe.bookCopy.entity.CopyStatus;
+import librairy.app.containe.bookCopy.repository.BookCopyRepository;
 import librairy.app.containe.exception.BadRequestException;
 import librairy.app.containe.exception.NotFoundException;
 import librairy.app.containe.stockMovement.arrival.entity.ArrivalMovement;
@@ -31,6 +33,7 @@ class StockMovementServiceTest {
   @Mock private ReservationMovementRepository reservationMovementRepository;
   @Mock private ReservationCancelledMovementRepository cancelledMovementRepository;
   @Mock private BookRepository bookRepository;
+  @Mock private BookCopyRepository bookCopyRepository;
 
   @InjectMocks private StockMovementService stockMovementService;
 
@@ -71,12 +74,38 @@ class StockMovementServiceTest {
   }
 
   @Test
+  void getStockByBookId_shouldReturnAvailableCopiesCount() {
+    given(bookRepository.findById(BOOK_ID)).willReturn(Optional.of(new Book()));
+    given(bookCopyRepository.countByBookIdAndStatus(BOOK_ID, CopyStatus.AVAILABLE)).willReturn(6L);
+
+    int stock = stockMovementService.getStockByBookId(BOOK_ID);
+
+    assertThat(stock).isEqualTo(6);
+  }
+
+  @Test
   void isAvailable_shouldReturnFalse_whenStockIsZero() {
     given(bookRepository.findById(BOOK_ID)).willReturn(Optional.of(new Book()));
     given(arrivalMovementRepository.findByBookId(BOOK_ID)).willReturn(List.of());
     given(saleMovementRepository.findByBookId(BOOK_ID)).willReturn(List.of());
     given(cancelledMovementRepository.findByBookId(BOOK_ID)).willReturn(List.of());
     given(reservationMovementRepository.findByBookId(BOOK_ID)).willReturn(List.of());
+
+    assertThat(stockMovementService.isAvailable(BOOK_ID)).isFalse();
+  }
+
+  @Test
+  void isAvailable_shouldReturnTrue_whenStockPositive() {
+    given(bookRepository.findById(BOOK_ID)).willReturn(Optional.of(new Book()));
+    given(bookCopyRepository.countByBookIdAndStatus(BOOK_ID, CopyStatus.AVAILABLE)).willReturn(3L);
+
+    assertThat(stockMovementService.isAvailable(BOOK_ID)).isTrue();
+  }
+
+  @Test
+  void isAvailable_shouldReturnFalse_whenStockZero() {
+    given(bookRepository.findById(BOOK_ID)).willReturn(Optional.of(new Book()));
+    given(bookCopyRepository.countByBookIdAndStatus(BOOK_ID, CopyStatus.AVAILABLE)).willReturn(0L);
 
     assertThat(stockMovementService.isAvailable(BOOK_ID)).isFalse();
   }

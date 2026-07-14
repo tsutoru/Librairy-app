@@ -38,7 +38,6 @@ class BookControllerTest {
     book.setId("550e8400-e29b-41d4-a716-446655440000");
     book.setTitle("Clean Code");
     book.setDescription("A book about writing clean code");
-    book.setPrice(29.99);
     book.setIsbn("978-0132350884");
   }
 
@@ -119,7 +118,6 @@ class BookControllerTest {
     Book updated = new Book();
     updated.setId("550e8400-e29b-41d4-a716-446655440000");
     updated.setTitle("Clean Code 2nd Edition");
-    updated.setPrice(34.99);
 
     when(bookService.update(eq("550e8400-e29b-41d4-a716-446655440000"), any(Book.class)))
         .thenReturn(updated);

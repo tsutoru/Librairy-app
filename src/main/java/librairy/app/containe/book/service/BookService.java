@@ -41,16 +41,19 @@ public class BookService {
   public Book update(String id, Book newBook) {
     validateUuid(id);
     Book book = getBookById(id);
-
-    book.setTitle(newBook.getTitle());
-    book.setDescription(newBook.getDescription());
-    book.setPrice(newBook.getPrice());
-    book.setPublicationDate(newBook.getPublicationDate());
-    book.setIsbn(newBook.getIsbn());
-    book.setCategory(newBook.getCategory());
-    book.setAuthors(newBook.getAuthors());
-
-    return save(book);
+    
+    try {
+      book.setTitle(newBook.getTitle());
+      book.setDescription(newBook.getDescription());
+      book.setPrice(newBook.getPrice());
+      book.setPublicationDate(newBook.getPublicationDate());
+      book.setIsbn(newBook.getIsbn());
+      book.setCategory(newBook.getCategory());
+      book.setAuthors(newBook.getAuthors());
+      return bookRepository.save(book);
+    } catch (DataIntegrityViolationException e) {
+      throw new BadRequestException("Book data is invalid: " + e.getMessage());
+    }
   }
 
   public List<Book> search(String title, String author, String category, String isbn) {
